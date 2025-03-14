@@ -4,15 +4,15 @@ import { PastryCTA } from "@/components/ui/pastry-cta";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-background">
-      <PastryHero />
-      <div className="relative bg-background">
-        <div className="relative z-[1]">
+    <main className="relative bg-background">
+      <div className="relative">
+        <PastryHero />
+      </div>
+      <div className="relative z-10 mt-[120vh]">
+        <div className="relative bg-background">
           <CakeCategoryGrid />
         </div>
-        <div className="relative z-[2]">
-          <PastryCTA />
-        </div>
+        <PastryCTA />
       </div>
     </main>
   );
