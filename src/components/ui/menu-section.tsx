@@ -11,37 +11,6 @@ interface MenuSectionProps {
   isLoading?: boolean;
 }
 
-const getCategoryImages = (categoryTitle: string): string[] => {
-  switch (categoryTitle.toLowerCase()) {
-    case "classic cakes":
-      return [
-        "/KeilahClassics/IMG_3082.JPG",
-        "/KeilahClassics/IMG_3083.JPG",
-        "/KeilahClassics/IMG_3084.JPG"
-      ];
-    case "wedding cakes":
-      return [
-        "/WeddingCakes/IMG_3113.JPG",
-        "/WeddingCakes/IMG_3131.JPG",
-        "/WeddingCakes/IMG_3132.JPG"
-      ];
-    case "number & letter cakes":
-      return [
-        "/NumberandLetterCakes/IMG_3151.JPG",
-        "/NumberandLetterCakes/IMG_3220.JPG",
-        "/NumberandLetterCakes/IMG_3221.JPG"
-      ];
-    case "baby dedication":
-      return [
-        "/BabyDedicationCakes/IMG_3149.JPG",
-        "/BabyDedicationCakes/IMG_3154.JPG",
-        "/BabyDedicationCakes/IMG_3155.JPG"
-      ];
-    default:
-      return [];
-  }
-};
-
 export function MenuSection({ section, isLoading }: MenuSectionProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -77,7 +46,6 @@ export function MenuSection({ section, isLoading }: MenuSectionProps) {
             <MenuItemCard 
               key={index}
               item={item}
-              images={getCategoryImages(item.name)}
             />
           ))
         )}

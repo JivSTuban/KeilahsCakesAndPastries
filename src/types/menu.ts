@@ -1,12 +1,19 @@
 export interface MenuItem {
   name: string;
   description?: string;
-  price: number;
-  images?: string[];
-  options?: {
-    label: string;
-    values: string[];
+  emoji?: string;
+  flavor?: string;
+  prices: {
+    size?: string;
+    price: number;
+    details?: string;
   }[];
+  image?: string; // Single representative image for the menu item
+}
+
+export interface MenuCategory {
+  name: string;
+  sections: MenuSection[];
 }
 
 export interface MenuSection {

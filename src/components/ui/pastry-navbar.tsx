@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useScrollDirection } from "@/hooks/use-scroll-direction";
@@ -11,9 +12,8 @@ import { Button } from "@/components/ui/button";
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Menu", href: "/menu" },
-  { label: "Featured", href: "/featured" },
-  { label: "Feedback", href: "/feedback" },
-  { label: "About", href: "/about" },
+  { label: "Collections", href: "/collections" },
+  { label: "Feedback", href: "/feedback" }
 ];
 
 export function PastryNavbar() {
@@ -80,22 +80,92 @@ export function PastryNavbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <motion.ul 
-            className="relative flex items-center gap-1 rounded-full border border-border/50 bg-card/50 px-3 py-1.5 shadow-sm"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href} className="relative">
-                <NavLink href={item.href}>
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
-          </motion.ul>
+          <NavList />
         </nav>
       </div>
     </motion.header>
   );
 }
+
+const { useState, useRef } = React;
+
+const NavList = () => {
+  const [position, setPosition] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  return (
+    <motion.ul
+      className="relative flex items-center rounded-full border border-border/50 bg-card/50 p-1"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      onMouseLeave={() => setPosition((pv: typeof position) => ({ ...pv, opacity: 0 }))}
+    >
+      {NAV_ITEMS.map((item) => (
+        <NavItem key={item.href} href={item.href} setPosition={setPosition}>
+          {item.label}
+        </NavItem>
+      ))}
+      <NavCursor position={position} />
+    </motion.ul>
+  );
+};
+
+const NavItem = ({
+  children,
+  href,
+  setPosition,
+}: {
+  children: React.ReactNode;
+  href: string;
+  setPosition: React.Dispatch<React.SetStateAction<{
+    left: number;
+    width: number;
+    opacity: number;
+  }>>;
+}) => {
+  const ref = useRef<HTMLLIElement>(null);
+
+  return (
+    <li
+      ref={ref}
+      onMouseEnter={() => {
+        if (!ref.current) return;
+        const { width } = ref.current.getBoundingClientRect();
+        setPosition({
+          width,
+          opacity: 1,
+          left: ref.current.offsetLeft,
+        });
+      }}
+      className="relative z-10"
+    >
+      <NavLink 
+        href={href}
+        className="px-3 py-1.5 text-sm font-medium"
+      >
+        {children}
+      </NavLink>
+    </li>
+  );
+};
+
+const NavCursor = ({ 
+  position 
+}: { 
+  position: { 
+    left: number; 
+    width: number; 
+    opacity: number; 
+  }; 
+}) => {
+  return (
+    <motion.div
+      animate={position}
+      className="absolute z-0 h-8 rounded-full bg-primary"
+    />
+  );
+};
