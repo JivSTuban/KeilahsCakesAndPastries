@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 const QUICK_LINKS = [
   { name: "Home", href: "/" },
@@ -27,11 +28,12 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/keilahs-logo.jpg"
+                src={getCloudinaryUrl("/keilahs-logo.jpg")}
                 alt="Keilah's Pastries"
                 width={40}
                 height={40}
                 className="h-10 w-auto"
+                priority
               />
               <div className="flex flex-col">
                 <span className="text-xl font-display text-primary">Keilah's</span>

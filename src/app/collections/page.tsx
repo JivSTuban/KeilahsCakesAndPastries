@@ -3,6 +3,7 @@
 import { Cake } from "lucide-react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import Image from "next/image";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 // Helper function to repeat arrays for smooth infinite scrolling
 const repeatArray = <T,>(arr: T[], minLength: number = 8): T[] => {
@@ -38,144 +39,131 @@ const getDescription = (categoryName: string): string => {
 const CAKE_CATEGORIES = [
   // 30 images
   { name: "Customized 1 Tier", path: "/CustomizedCakes/1TierCakes", images: [
-    "/CustomizedCakes/1TierCakes/IMG_2126.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3104.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3114.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3115.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3116.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3127.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3135.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3136.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3141.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3145.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3146.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3147.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3152.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3153.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3160.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3161.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3202.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3203.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3204.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3206.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3207.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3212.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3213.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3214.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3216.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3217.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3227.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3238.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3239.JPG",
-    "/CustomizedCakes/1TierCakes/IMG_3241.JPG"
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_2126.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3104.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3114.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3115.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3116.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3127.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3135.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3136.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3141.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3145.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3146.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3147.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3152.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3153.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3160.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3161.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3202.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3203.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3204.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3206.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3207.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3212.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3213.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3214.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3216.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3217.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3227.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3238.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3239.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3241.JPG")
   ]},
   // 16 images
   { name: "Customized 2 Tier", path: "/CustomizedCakes/2TierCakes", images: [
-    "/CustomizedCakes/2TierCakes/IMG_3108.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3109.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3134.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3150.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3177.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3187.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3195.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3225.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3226.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3228.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3230.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3234.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3235.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3236.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_3237.JPG",
-    "/CustomizedCakes/2TierCakes/IMG_6094.JPG"
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3108.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3109.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3134.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3150.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3177.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3187.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3195.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3225.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3226.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3228.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3230.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3234.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3235.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3236.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3237.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_6094.JPG")
   ]},
   // 13 images
   { name: "Bento and Combos", path: "/BentoandCombos", images: [
-    "/BentoandCombos/IMG_3118.JPG",
-    "/BentoandCombos/IMG_3119.JPG",
-    "/BentoandCombos/IMG_3139.JPG",
-    "/BentoandCombos/IMG_3140.JPG",
-    "/BentoandCombos/IMG_3142.JPG",
-    "/BentoandCombos/IMG_3156.JPG",
-    "/BentoandCombos/IMG_3198.JPG",
-    "/BentoandCombos/IMG_3200.JPG",
-    "/BentoandCombos/IMG_3201.JPG",
-    "/BentoandCombos/IMG_3208.JPG",
-    "/BentoandCombos/IMG_3209.JPG",
-    "/BentoandCombos/IMG_3210.JPG",
-    "/BentoandCombos/IMG_3211.JPG"
-  ]},
-  // 12 images
-  { name: "All in One Package", path: "/ALLINONEPACKAGE", images: [
-    "/ALLINONEPACKAGE/IMG_3086.JPG",
-    "/ALLINONEPACKAGE/IMG_3087.JPG",
-    "/ALLINONEPACKAGE/IMG_3088.JPG",
-    "/ALLINONEPACKAGE/IMG_3089.JPG",
-    "/ALLINONEPACKAGE/IMG_3090.JPG",
-    "/ALLINONEPACKAGE/IMG_3091.JPG",
-    "/ALLINONEPACKAGE/IMG_3092.JPG",
-    "/ALLINONEPACKAGE/IMG_3093.JPG",
-    "/ALLINONEPACKAGE/IMG_3094.JPG",
-    "/ALLINONEPACKAGE/IMG_3095.JPG",
-    "/ALLINONEPACKAGE/IMG_3096.JPG",
-    "/ALLINONEPACKAGE/IMG_3097.JPG"
-  ]},
-  // 11 images
-  { name: "Number and Letter", path: "/NumberandLetterCakes", images: [
-    "/NumberandLetterCakes/IMG_3133.JPG",
-    "/NumberandLetterCakes/IMG_3151.JPG",
-    "/NumberandLetterCakes/IMG_3197.JPG",
-    "/NumberandLetterCakes/IMG_3220.JPG",
-    "/NumberandLetterCakes/IMG_3221.JPG",
-    "/NumberandLetterCakes/IMG_3222.JPG",
-    "/NumberandLetterCakes/IMG_3223.JPG",
-    "/NumberandLetterCakes/IMG_3224.JPG",
-    "/NumberandLetterCakes/IMG_3231.JPG",
-    "/NumberandLetterCakes/IMG_3232.JPG",
-    "/NumberandLetterCakes/IMG_3233.JPG"
-  ]},
-  // 10 images
-  { name: "Wedding Cakes", path: "/WeddingCakes", images: [
-    "/WeddingCakes/IMG_3113.JPG",
-    "/WeddingCakes/IMG_3131.JPG",
-    "/WeddingCakes/IMG_3132.JPG",
-    "/WeddingCakes/IMG_3143.JPG",
-    "/WeddingCakes/IMG_3158.JPG",
-    "/WeddingCakes/IMG_3162.JPG",
-    "/WeddingCakes/IMG_3164.JPG",
-    "/WeddingCakes/IMG_3171.JPG",
-    "/WeddingCakes/IMG_3175.JPG",
-    "/WeddingCakes/IMG_3188.JPG"
+    getCloudinaryUrl("/BentoandCombos/IMG_3118.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3119.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3139.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3140.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3142.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3156.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3198.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3200.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3201.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3208.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3209.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3210.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3211.JPG")
   ]},
   // 8 images
   { name: "Debut Cakes", path: "/DebutCakes", images: [
-    "/DebutCakes/IMG_3105.JPG",
-    "/DebutCakes/IMG_3111.JPG",
-    "/DebutCakes/IMG_3112.JPG",
-    "/DebutCakes/IMG_3173.JPG",
-    "/DebutCakes/IMG_3179.JPG",
-    "/DebutCakes/IMG_3185.JPG",
-    "/DebutCakes/IMG_3189.JPG",
-    "/DebutCakes/IMG_3194.JPG"
+    getCloudinaryUrl("/DebutCakes/IMG_3105.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3111.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3112.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3173.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3179.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3185.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3189.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3194.JPG")
   ]},
   // 7 images
   { name: "Baby Dedication", path: "/BabyDedicationCakes", images: [
-    "/BabyDedicationCakes/IMG_3149.JPG",
-    "/BabyDedicationCakes/IMG_3154.JPG",
-    "/BabyDedicationCakes/IMG_3155.JPG",
-    "/BabyDedicationCakes/IMG_3192.JPG",
-    "/BabyDedicationCakes/IMG_3193.JPG",
-    "/BabyDedicationCakes/IMG_3196.JPG",
-    "/BabyDedicationCakes/IMG_3229.JPG"
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3155.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3192.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3193.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3196.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3229.JPG")
   ]},
   // 7 images
   { name: "Customized 3 Tier", path: "/CustomizedCakes/3TierCakes", images: [
-    "/CustomizedCakes/3TierCakes/IMG_3107.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3168.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3170.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3176.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3180.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3182.JPG",
-    "/CustomizedCakes/3TierCakes/IMG_3183.JPG"
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3107.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3168.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3170.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3176.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3180.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3182.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3183.JPG")
+  ]},
+  // 12 images
+  { name: "All in One Package", path: "/ALLINONEPACKAGE", images: [
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3086.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3087.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3088.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3089.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3090.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3091.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3092.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3093.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3094.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3095.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3096.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3097.JPG")
+  ]},
+  // 11 images
+  { name: "Number and Letter", path: "/NumberandLetterCakes", images: [
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3133.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3151.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3197.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3220.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3221.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3222.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3223.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3224.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3231.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3232.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3233.JPG")
   ]}
 ];
 

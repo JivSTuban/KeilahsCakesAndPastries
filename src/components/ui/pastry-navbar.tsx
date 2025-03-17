@@ -45,7 +45,7 @@ export function PastryNavbar() {
                 className="relative"
               >
                 <Image
-                  src="/keilahs-logo.jpg"
+                  src={getCloudinaryUrl("/keilahs-logo.jpg")}
                   alt="Keilah's Pastries"
                   width={48}
                   height={48}
@@ -89,6 +89,7 @@ export function PastryNavbar() {
 
 const { useState, useRef, useEffect } = React;
 import { usePathname } from "next/navigation";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 const NavList = () => {
   const pathname = usePathname();

@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { PastryNavbar } from "@/components/ui/pastry-navbar";
 import { Footer } from "@/components/ui/footer";
 import { Providers } from "@/app/providers";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -30,13 +31,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/icon.png",
+        url: getCloudinaryUrl("/keilahs-logo.jpg"),
         type: "image/png",
       }
     ],
     apple: [
       {
-        url: "/apple-icon.png",
+        url: getCloudinaryUrl("/keilahs-logo.jpg"),
         type: "image/png",
       }
     ],
@@ -45,13 +46,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Keilah's Cakes & Pastries",
     description: "Handcrafted cakes and pastries for your special moments",
-    images: [{ url: "/keilahs-logo.jpg" }],
+    images: [{ url: getCloudinaryUrl("/keilahs-logo.jpg") }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Keilah's Cakes & Pastries",
     description: "Handcrafted cakes and pastries for your special moments",
-    images: ["/keilahs-logo.jpg"],
+    images: [getCloudinaryUrl("/keilahs-logo.jpg")]
   },
 };
 

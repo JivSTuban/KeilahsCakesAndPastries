@@ -7,48 +7,49 @@ import { Cake, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useParallax } from "@/hooks/use-parallax";
 import { Button } from "@/components/ui/button";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 const CAKE_CATEGORIES = [
   {
     id: 1,
     title: "Wedding Cakes",
     description: "Elegant and beautifully crafted wedding cakes for your special day",
-    image: "/WeddingCakes/IMG_3113.JPG",
+    image: getCloudinaryUrl("/WeddingCakes/IMG_3113.JPG"),
     href: "/menu#wedding"
   },
   {
     id: 2,
     title: "Debut Cakes",
     description: "Make your debut celebration unforgettable with our custom designs",
-    image: "/DebutCakes/IMG_3179.JPG",
+    image: getCloudinaryUrl("/DebutCakes/IMG_3179.JPG"),
     href: "/menu#debut"
   },
   {
     id: 3,
     title: "Baby Dedication",
     description: "Sweet celebrations for your little one's special milestone",
-    image: "/BabyDedicationCakes/IMG_3149.JPG",
+    image: getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
     href: "/menu#baby-dedication"
   },
   {
     id: 4,
     title: "Custom Numbers & Letters",
     description: "Personalized number and letter cakes for any occasion",
-    image: "/NumberandLetterCakes/IMG_3151.JPG",
+    image: getCloudinaryUrl("/NumberandLetterCakes/IMG_3151.JPG"),
     href: "/menu#custom-shapes"
   },
   {
     id: 5,
     title: "Bento Cakes",
     description: "Adorable mini cakes perfect for intimate celebrations",
-    image: "/BentoandCombos/IMG_3119.JPG",
+    image: getCloudinaryUrl("/BentoandCombos/IMG_3119.JPG"),
     href: "/menu#bento"
   },
   {
     id: 6,
     title: "Cake in Cups",
     description: "Delightful individual servings of your favorite cake flavors",
-    image: "/CakeinCups/IMG_3124.JPG",
+    image: getCloudinaryUrl("/CakeinCups/IMG_3124.JPG"),
     href: "/menu#cup-cakes"
   }
 ];

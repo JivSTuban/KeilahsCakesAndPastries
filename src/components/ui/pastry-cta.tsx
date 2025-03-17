@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 export function PastryCTA() {
   const [mounted, setMounted] = useState(false);
 
@@ -20,7 +20,7 @@ export function PastryCTA() {
       <div className="absolute inset-0 z-0">
         <div className="relative h-full w-full">
           <Image
-            src="/KeilahClassics/allCakesNoBG.png"
+            src={getCloudinaryUrl("/KeilahClassics/allCakesNoBG.png")}
             alt="Keilah's Classic Cakes"
             fill
             className="object-cover object-center"

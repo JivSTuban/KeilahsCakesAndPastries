@@ -12,147 +12,148 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
 const pastryProducts = [
   {
     title: "Cake in Cups",
     link: "/menu",
-    thumbnail: "/CakeinCups/IMG_3122.JPG",
+    thumbnail: getCloudinaryUrl("/CakeinCups/IMG_3122.JPG"),
   },
   {
     title: "Bridal Shower Cakes",
     link: "/menu",
-    thumbnail: "/BridalShowerCakes/IMG_2723.JPG",
+    thumbnail: getCloudinaryUrl("/BridalShowerCakes/IMG_2723.JPG"),
   },
   {
     title: "Bento and Combos",
     link: "/menu",
-    thumbnail: "/BentoandCombos/IMG_3139.JPG",
+    thumbnail: getCloudinaryUrl("/BentoandCombos/IMG_3139.JPG"),
   },
   {
     title: "Baby Dedication Cakes",
     link: "/menu",
-    thumbnail: "/BabyDedicationCakes/IMG_3154.JPG",
+    thumbnail: getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
   },
   {
     title: "All in One Package",
     link: "/menu",
-    thumbnail: "/ALLINONEPACKAGE/IMG_3090.JPG",
+    thumbnail: getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3090.JPG"),
   },
   {
     title: "1 Tier Cakes",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/1TierCakes/IMG_3115.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3115.JPG"),
   },
   {
     title: "2 Tier Cakes",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/2TierCakes/IMG_3236.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3236.JPG"),
   },
   {
     title: "3 Tier Cakes",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/3TierCakes/IMG_3107.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3107.JPG"),
   },
   {
     title: "Number and Letter Cakes",
     link: "/menu",
-    thumbnail: "/NumberandLetterCakes/IMG_3232.JPG",
+    thumbnail: getCloudinaryUrl("/NumberandLetterCakes/IMG_3232.JPG"),
   },
   {
     title: "Wedding Cakes",
     link: "/menu",
-    thumbnail: "/WeddingCakes/IMG_3113.JPG",
+    thumbnail: getCloudinaryUrl("/WeddingCakes/IMG_3113.JPG"),
   },
   {
     title: "Debut Cakes",
     link: "/menu",
-    thumbnail: "/DebutCakes/IMG_3105.JPG",
+    thumbnail: getCloudinaryUrl("/DebutCakes/IMG_3105.JPG"),
   },
   {
     title: "Gender Reveal Cakes",
     link: "/menu",
-    thumbnail: "/GenderRevealCakes/IMG_3166.JPG",
+    thumbnail: getCloudinaryUrl("/GenderRevealCakes/IMG_3166.JPG"),
   },
   {
     title: "Custom Creations",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/1TierCakes/IMG_3114.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3114.JPG"),
   },
   {
     title: "Special Occasions",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/2TierCakes/IMG_3234.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3234.JPG"),
   },
   {
     title: "Celebration Cakes",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/1TierCakes/IMG_3135.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3135.JPG"),
   },
   {
     title: "Keilah Classics",
     link: "/menu",
-    thumbnail: "/KeilahClassics/IMG_3082.JPG",
+    thumbnail: getCloudinaryUrl("/KeilahClassics/IMG_3082.JPG"),
   },
   {
     title: "All in One Package v2",
     link: "/menu",
-    thumbnail: "/ALLINONEPACKAGE/IMG_3086.JPG",
+    thumbnail: getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3086.JPG"),
   },
   {
     title: "Baby Dedication Cakes v2",
     link: "/menu",
-    thumbnail: "/BabyDedicationCakes/IMG_3149.JPG",
+    thumbnail: getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
   },
   {
     title: "Bento and Combos v2",
     link: "/menu",
-    thumbnail: "/BentoandCombos/IMG_3118.JPG",
+    thumbnail: getCloudinaryUrl("/BentoandCombos/IMG_3118.JPG"),
   },
   {
     title: "Bridal Shower Cakes v2",
     link: "/menu",
-    thumbnail: "/BridalShowerCakes/IMG_2722.JPG",
+    thumbnail: getCloudinaryUrl("/BridalShowerCakes/IMG_2722.JPG"),
   },
   {
     title: "Cake in Cups v2",
     link: "/menu",
-    thumbnail: "/CakeinCups/IMG_3121.JPG",
+    thumbnail: getCloudinaryUrl("/CakeinCups/IMG_3121.JPG"),
   },
   {
     title: "Customized Cakes 1 Tier v2",
     link: "/menu",
-    thumbnail: "/CustomizedCakes/1TierCakes/IMG_2126.JPG",
+    thumbnail: getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_2126.JPG"),
   },
   {
     title: "Debut Cakes v2",
     link: "/menu",
-    thumbnail: "/DebutCakes/IMG_3111.JPG",
+    thumbnail: getCloudinaryUrl("/DebutCakes/IMG_3111.JPG"),
   },
   {
     title: "Wedding Cakes v2",
     link: "/menu",
-    thumbnail: "/WeddingCakes/IMG_3131.JPG",
+    thumbnail: getCloudinaryUrl("/WeddingCakes/IMG_3131.JPG"),
   },
   {
     title: "Debut Cakes v3",
     link: "/menu",
-    thumbnail: "/DebutCakes/IMG_3173.JPG",
+    thumbnail: getCloudinaryUrl("/DebutCakes/IMG_3173.JPG"),
   },
   {
     title: "Gender Reveal Cakes v2",
     link: "/menu",
-    thumbnail: "/GenderRevealCakes/IMG_3172.JPG",
+    thumbnail: getCloudinaryUrl("/GenderRevealCakes/IMG_3172.JPG"),
   },
   {
     title: "Number and Letter Cakes v3",
     link: "/menu",
-    thumbnail: "/NumberandLetterCakes/IMG_3133.JPG",
+    thumbnail: getCloudinaryUrl("/NumberandLetterCakes/IMG_3133.JPG"),
   },
    {
     title: "Wedding Cakes v3",
     link: "/menu",
-    thumbnail: "/WeddingCakes/IMG_3132.JPG",
+    thumbnail: getCloudinaryUrl("/WeddingCakes/IMG_3132.JPG"),
   }
 ] as const;
 
@@ -185,6 +186,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, translate }) => {
           width={600}
           className="object-cover object-left-top absolute h-full w-full inset-0 rounded-lg"
           alt={product.title}
+          priority
         />
       </Link>
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-90 bg-background/90 pointer-events-none rounded-lg transition-all duration-300"></div>
