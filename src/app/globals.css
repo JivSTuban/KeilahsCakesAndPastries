@@ -4,6 +4,12 @@
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
   
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+  
   --primary: 24 96% 53%; /* Royal Orange */
   --primary-foreground: 60 9.1% 97.8%;
   
@@ -51,6 +57,22 @@ body {
   100% {
     background-position: 1000px 0;
   }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.8;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.8;
+  }
+  animation-timing-function: ease-in-out;
 }
 
 /* Enhanced Animations */

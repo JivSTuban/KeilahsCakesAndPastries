@@ -220,8 +220,8 @@ export default function FeaturedPage() {
               <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
               
               <InfiniteSlider 
-                duration={40} 
-                durationOnHover={100} 
+                duration={80} 
+                durationOnHover={120} 
                 gap={32}
                 reverse={index % 2 === 1}
                 className="py-4"

@@ -3,6 +3,7 @@
 import { Cake, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { HoverButton } from "@/components/ui/hover-button";
 import { FeedbackModal } from "@/components/ui/feedback-modal";
 import { useApprovedFeedback } from "@/hooks/use-approved-feedback";
 import type { Feedback } from "@/types/feedback";
@@ -74,7 +75,20 @@ export default function FeedbackPage() {
             <p className="text-lg text-muted-foreground max-w-lg mx-auto">
               See what our customers are saying about us
             </p>
-            <FeedbackModal />
+            <FeedbackModal>
+              <HoverButton 
+                className="text-black font-body tracking-wide text-base sm:text-lg"
+                style={{
+                  "--circle-start": "#a0d9f8",
+                  "--circle-end": "#3a5bbf",
+                  background: "white"
+                } as React.CSSProperties}
+              >
+                <span className="flex items-center gap-2">
+                  Share Your Experience
+                </span>
+              </HoverButton>
+            </FeedbackModal>
           </div>
 
           {/* Feedback Grid */}

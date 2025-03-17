@@ -87,25 +87,57 @@ export function PastryNavbar() {
   );
 }
 
-const { useState, useRef } = React;
+const { useState, useRef, useEffect } = React;
+import { usePathname } from "next/navigation";
 
 const NavList = () => {
+  const pathname = usePathname();
   const [position, setPosition] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
 
+  useEffect(() => {
+    const activeItem = document.querySelector(`[data-href="${pathname}"]`);
+    if (activeItem) {
+      const { width, left } = activeItem.getBoundingClientRect();
+      const parentLeft = activeItem.parentElement?.getBoundingClientRect().left || 0;
+      setPosition({
+        width,
+        opacity: 1,
+        left: left - parentLeft,
+      });
+    }
+  }, [pathname]);
+
   return (
     <motion.ul
-      className="relative flex items-center rounded-full border border-border/50 bg-card/50 p-1"
+      className="relative mx-auto flex w-fit rounded-full border border-black bg-white p-1"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      onMouseLeave={() => setPosition((pv: typeof position) => ({ ...pv, opacity: 0 }))}
+      onMouseLeave={() => {
+        const activeItem = document.querySelector(`[data-href="${pathname}"]`);
+        if (activeItem) {
+          const { width, left } = activeItem.getBoundingClientRect();
+          const parentLeft = activeItem.parentElement?.getBoundingClientRect().left || 0;
+          setPosition({
+            width,
+            opacity: 1,
+            left: left - parentLeft,
+          });
+        }
+      }}
     >
       {NAV_ITEMS.map((item) => (
-        <NavItem key={item.href} href={item.href} setPosition={setPosition}>
+        <NavItem
+          key={item.href}
+          href={item.href}
+          setPosition={setPosition}
+          isActive={pathname === item.href}
+          data-href={item.href}
+        >
           {item.label}
         </NavItem>
       ))}
@@ -118,6 +150,8 @@ const NavItem = ({
   children,
   href,
   setPosition,
+  isActive,
+  ...props
 }: {
   children: React.ReactNode;
   href: string;
@@ -126,9 +160,9 @@ const NavItem = ({
     width: number;
     opacity: number;
   }>>;
+  isActive?: boolean;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
-
   return (
     <li
       ref={ref}
@@ -141,31 +175,25 @@ const NavItem = ({
           left: ref.current.offsetLeft,
         });
       }}
-      className="relative z-10"
+      className="relative z-10 block cursor-pointer px-3 py-1.5 text-sm uppercase text-white mix-blend-difference"
+      {...props}
     >
-      <NavLink 
-        href={href}
-        className="px-3 py-1.5 text-sm font-medium"
-      >
-        {children}
-      </NavLink>
+      <Link href={href}>{children}</Link>
     </li>
   );
 };
 
-const NavCursor = ({ 
-  position 
-}: { 
-  position: { 
-    left: number; 
-    width: number; 
-    opacity: number; 
-  }; 
+const NavCursor = ({ position }: { 
+  position: {
+    left: number;
+    width: number;
+    opacity: number;
+  }
 }) => {
   return (
-    <motion.div
+    <motion.li
       animate={position}
-      className="absolute z-0 h-8 rounded-full bg-primary"
+      className="absolute z-0 h-8 rounded-full bg-black"
     />
   );
-};
+}

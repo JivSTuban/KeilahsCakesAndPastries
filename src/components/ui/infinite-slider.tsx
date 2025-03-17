@@ -1,7 +1,7 @@
 'use client';
 import { cn } from "@/lib/utils";
-import { useMotionValue, animate, motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useMotionValue, animate, motion, PanInfo } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import useMeasure from 'react-use-measure';
 
 type InfiniteSliderProps = {
@@ -17,7 +17,7 @@ type InfiniteSliderProps = {
 export function InfiniteSlider({
   children,
   gap = 16,
-  duration = 25,
+  duration = 50,
   durationOnHover,
   direction = 'horizontal',
   reverse = false,
@@ -28,6 +28,8 @@ export function InfiniteSlider({
   const translation = useMotionValue(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [key, setKey] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dragStartPosition, setDragStartPosition] = useState(0);
 
   useEffect(() => {
     let controls;
@@ -72,6 +74,27 @@ export function InfiniteSlider({
     reverse,
   ]);
 
+  const handleDragStart = () => {
+    setIsTransitioning(true);
+    setDragStartPosition(translation.get());
+  };
+
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const velocity = info.velocity[direction === 'horizontal' ? 'x' : 'y'];
+    const offset = translation.get() - dragStartPosition;
+    
+    setCurrentDuration(duration);
+    setIsTransitioning(true);
+
+    // If the drag was significant enough, change direction
+    if (Math.abs(offset) > 50) {
+      const shouldReverse = offset > 0;
+      if (shouldReverse !== reverse) {
+        setKey(prev => prev + 1);
+      }
+    }
+  };
+
   const hoverProps = durationOnHover
     ? {
         onHoverStart: () => {
@@ -86,9 +109,9 @@ export function InfiniteSlider({
     : {};
 
   return (
-    <div className={cn('overflow-hidden', className)}>
+    <div className={cn('overflow-hidden', className)} ref={containerRef}>
       <motion.div
-        className='flex w-max'
+        className="flex w-max cursor-grab active:cursor-grabbing"
         style={{
           ...(direction === 'horizontal'
             ? { x: translation }
@@ -97,6 +120,13 @@ export function InfiniteSlider({
           flexDirection: direction === 'horizontal' ? 'row' : 'column',
         }}
         ref={ref}
+        drag={direction === 'horizontal' ? 'x' : 'y'}
+        dragConstraints={containerRef}
+        dragElastic={0}
+        dragMomentum={false}
+        dragTransition={{ power: 0.2, timeConstant: 200 }}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         {...hoverProps}
       >
         {children}
