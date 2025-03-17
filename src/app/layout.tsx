@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       }
     ],
   },
-  metadataBase: new URL('https://keilahspastries.vercel.app'),
+  metadataBase: new URL('https://keilahs-cakes-and-pastries.vercel.app'),
   openGraph: {
     title: "Keilah's Cakes & Pastries",
     description: "Handcrafted cakes and pastries for your special moments",

@@ -2,6 +2,7 @@ import { MenuSection } from "@/components/ui/menu-section";
 import { menuData } from "@/data/menu";
 import { type MenuSection as MenuSectionType } from "@/types/menu";
 import { Cake } from "lucide-react";
+import Image from "next/image";
 
 export default function MenuPage() {
   return (
@@ -33,16 +34,22 @@ export default function MenuPage() {
 
             {/* Decorative Images */}
             <div className="hidden md:block">
-              <img 
-                src="/KeilahClassics/IMG_3084.JPG" 
-                alt="Featured Cake 1"
-                className="absolute top-1/2 -translate-y-1/2 -left-4 w-32 h-32 object-cover rounded-full border-4 border-background shadow-xl transform -rotate-12 opacity-80"
-              />
-              <img 
-                src="/WeddingCakes/IMG_3113.JPG"
-                alt="Featured Cake 2" 
-                className="absolute top-1/2 -translate-y-1/2 -right-4 w-32 h-32 object-cover rounded-full border-4 border-background shadow-xl transform rotate-12 opacity-80"
-              />
+              <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-32 h-32">
+                <Image
+                  src="/KeilahClassics/IMG_3084.JPG"
+                  alt="Featured Cake 1"
+                  fill
+                  className="object-cover rounded-full border-4 border-background shadow-xl transform -rotate-12 opacity-80"
+                />
+              </div>
+              <div className="absolute top-1/2 -translate-y-1/2 -right-4 w-32 h-32">
+                <Image
+                  src="/WeddingCakes/IMG_3113.JPG"
+                  alt="Featured Cake 2"
+                  fill
+                  className="object-cover rounded-full border-4 border-background shadow-xl transform rotate-12 opacity-80"
+                />
+              </div>
             </div>
           </div>
         </div>

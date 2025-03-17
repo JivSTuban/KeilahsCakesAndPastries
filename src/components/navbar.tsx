@@ -5,7 +5,8 @@ import { useScrollDirection } from "@/hooks/use-scroll-direction"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import { getCloudinaryPublicId } from "@/lib/image-utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ShoppingBag } from "lucide-react"
 
@@ -44,12 +45,13 @@ export function Navbar() {
                 transition={{ duration: 0.5 }}
                 className="relative h-12 w-12 mr-2 rounded-full overflow-hidden"
               >
-                <Image
-                  src="/keilahs-logo.jpg"
+                <CloudinaryImage
+                  publicId={getCloudinaryPublicId("/keilahs-logo.jpg")}
                   alt="Keilah's Pastries Logo"
                   fill
                   className="object-cover"
                   priority
+                  sizes="48px"
                 />
               </motion.div>
               <motion.span
@@ -70,12 +72,13 @@ export function Navbar() {
                 isScrolled ? "text-gray-700 hover:text-pink-600" : "text-white hover:text-pink-100"
               )}
             >
-              <Image
-                src="/keilahs-logo.jpg"
+              <CloudinaryImage
+                publicId={getCloudinaryPublicId("/keilahs-logo.jpg")}
                 alt="Visit us on Facebook"
                 width={40}
                 height={40}
                 className="rounded-full transition-transform duration-300 hover:scale-110"
+                sizes="40px"
               />
               <span className="text-sm font-medium hidden md:inline">Follow us on Facebook</span>
             </Link>

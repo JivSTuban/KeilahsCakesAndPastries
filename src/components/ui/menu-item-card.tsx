@@ -1,6 +1,7 @@
 "use client";
 
-import { ImageWithLoading } from "@/components/ui/image-with-loading";
+import { CloudinaryImage } from "@/components/ui/cloudinary-image";
+import { getCloudinaryPublicId, isCloudinaryId } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
 import { type MenuItem } from "@/types/menu";
 
@@ -14,14 +15,14 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
       {/* Item Image */}
       {item.image && (
         <div className="relative aspect-[4/3] w-full">
-          <ImageWithLoading
-            src={item.image}
+          <CloudinaryImage
+            publicId={isCloudinaryId(item.image) ? item.image : getCloudinaryPublicId(item.image)}
             alt={item.name}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
-            quality={90}
+            transformations="f_auto,q_auto,w_auto,c_fill"
           />
         </div>
       )}
