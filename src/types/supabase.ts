@@ -42,6 +42,7 @@ export interface Database {
           price: number
           category: string
           category_id: number
+          is_popular: boolean
         }
         Insert: {
           id?: number
@@ -51,6 +52,7 @@ export interface Database {
           price: number
           category: string
           category_id: number
+          is_popular?: boolean
         }
         Update: {
           id?: number
@@ -60,6 +62,7 @@ export interface Database {
           price?: number
           category?: string
           category_id?: number
+          is_popular?: boolean
         }
       }
     }

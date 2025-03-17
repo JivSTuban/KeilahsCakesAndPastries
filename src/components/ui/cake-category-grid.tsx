@@ -127,7 +127,7 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
               <Button
                 variant="secondary"
                 className={cn(
-                  "w-fit transition-all duration-500 bg-white/90 hover:bg-white",
+                  "w-fit transition-all duration-500 bg-white/90 hover:bg-white cursor-pointer",
                   "shadow-lg hover:shadow-xl"
                 )}
               >
