@@ -33,6 +33,35 @@ export interface Database {
           is_available?: boolean
         }
       }
+      cakes: {
+        Row: {
+          id: number
+          name: string
+          description: string
+          image_path: string
+          price: number
+          category: string
+          category_id: number
+        }
+        Insert: {
+          id?: number
+          name: string
+          description: string
+          image_path: string
+          price: number
+          category: string
+          category_id: number
+        }
+        Update: {
+          id?: number
+          name?: string
+          description?: string
+          image_path?: string
+          price?: number
+          category?: string
+          category_id?: number
+        }
+      }
     }
   }
 }
