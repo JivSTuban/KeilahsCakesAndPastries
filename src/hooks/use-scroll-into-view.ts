@@ -12,7 +12,7 @@ export const useScrollIntoView = (
   elementId: string,
   options: ScrollIntoViewOptions = { behavior: "smooth", block: "start" }
 ) => {
-  const scrollTimeoutRef = useRef<number>();
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   const scrollIntoView = () => {
     // Clear any existing timeout
