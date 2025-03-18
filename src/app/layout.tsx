@@ -31,13 +31,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: getCloudinaryUrl("/keilahs-logo.jpg"),
+        url: getCloudinaryUrl("/logo.png"),
         type: "image/png",
       }
     ],
     apple: [
       {
-        url: getCloudinaryUrl("/keilahs-logo.jpg"),
+        url: getCloudinaryUrl("/logo.png"),
         type: "image/png",
       }
     ],
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Keilah's Cakes & Pastries",
     description: "Handcrafted cakes and pastries for your special moments",
-    images: [{ url: getCloudinaryUrl("/keilahs-logo.jpg") }],
+    images: [{ url: getCloudinaryUrl("/logo.png") }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Keilah's Cakes & Pastries",
     description: "Handcrafted cakes and pastries for your special moments",
-    images: [getCloudinaryUrl("/keilahs-logo.jpg")]
+    images: [getCloudinaryUrl("/logo.png")]
   },
 };
 

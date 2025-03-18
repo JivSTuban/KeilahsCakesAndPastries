@@ -15,42 +15,42 @@ const CAKE_CATEGORIES = [
     title: "Wedding Cakes",
     description: "Elegant and beautifully crafted wedding cakes for your special day",
     image: getCloudinaryUrl("/WeddingCakes/IMG_3113.JPG"),
-    href: "/menu#wedding"
+    href: "/collections#wedding"
   },
   {
     id: 2,
-    title: "Debut Cakes",
-    description: "Make your debut celebration unforgettable with our custom designs",
-    image: getCloudinaryUrl("/DebutCakes/IMG_3179.JPG"),
-    href: "/menu#debut"
+    title: "Birthday Cakes",
+    description: "Delightful cakes to make your birthday celebration extra special",
+    image: getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3235.JPG"),
+    href: "/collections#birthday"
   },
   {
     id: 3,
     title: "Baby Dedication",
     description: "Sweet celebrations for your little one's special milestone",
     image: getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
-    href: "/menu#baby-dedication"
+    href: "/collections#baby-dedication"
   },
   {
     id: 4,
-    title: "Custom Numbers & Letters",
+    title: "Number Cakes",
     description: "Personalized number and letter cakes for any occasion",
     image: getCloudinaryUrl("/NumberandLetterCakes/IMG_3151.JPG"),
-    href: "/menu#custom-shapes"
+    href: "/collections#number-cakes"
   },
   {
     id: 5,
-    title: "Bento Cakes",
-    description: "Adorable mini cakes perfect for intimate celebrations",
-    image: getCloudinaryUrl("/BentoandCombos/IMG_3119.JPG"),
-    href: "/menu#bento"
+    title: "All in One Package",
+    description: "Complete celebration packages with cake, cupcakes, and number designs",
+    image: getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3086.JPG"),
+    href: "/collections#cup-cakes"
   },
   {
     id: 6,
-    title: "Cake in Cups",
-    description: "Delightful individual servings of your favorite cake flavors",
-    image: getCloudinaryUrl("/CakeinCups/IMG_3124.JPG"),
-    href: "/menu#cup-cakes"
+    title: "Bento Cakes",
+    description: "Adorable mini cakes perfect for intimate celebrations",
+    image: getCloudinaryUrl("/BentoandCombos/IMG_3119.JPG"),
+    href: "/collections#bento"
   }
 ];
 
@@ -174,7 +174,7 @@ export function CakeCategoryGrid() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 perspective-1000 relative z-10">
         {CAKE_CATEGORIES.map((category, index) => (
           <CategoryCard 
             key={category.id}

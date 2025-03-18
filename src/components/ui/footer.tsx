@@ -7,16 +7,7 @@ const QUICK_LINKS = [
   { name: "Home", href: "/" },
   { name: "Menu", href: "/menu" },
   { name: "Featured", href: "/featured" },
-  { name: "About", href: "/about" },
   { name: "Feedback", href: "/feedback" }
-];
-
-const SPECIALTY_LINKS = [
-  { name: "Wedding Cakes", href: "/menu#wedding" },
-  { name: "Birthday Cakes", href: "/menu#birthday" },
-  { name: "Baby Dedication", href: "/menu#baby-dedication" },
-  { name: "Number Cakes", href: "/menu#number-cakes" },
-  { name: "Custom Designs", href: "/menu#custom" }
 ];
 
 export function Footer() {
@@ -32,7 +23,7 @@ export function Footer() {
                 alt="Keilah's Pastries"
                 width={40}
                 height={40}
-                className="h-10 w-auto"
+                className="h-10 w-auto rounded-full"
                 priority
               />
               <div className="flex flex-col">
@@ -64,20 +55,30 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Our Specialties */}
+          {/* Credits hehe */}
           <div>
-            <h3 className="font-display text-foreground text-lg mb-4">Our Specialties</h3>
+            <h3 className="font-display text-foreground text-lg mb-4">Developer</h3>
             <ul className="space-y-2">
-              {SPECIALTY_LINKS.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="https://jivstuban.me"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Jiv Tuban
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://rotosystems.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  roto.
+                </Link>
+              </li>
             </ul>
           </div>
 

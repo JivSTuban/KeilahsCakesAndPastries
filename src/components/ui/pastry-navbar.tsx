@@ -176,10 +176,10 @@ const NavItem = ({
           left: ref.current.offsetLeft,
         });
       }}
-      className="relative z-10 block cursor-pointer px-3 py-1.5 text-sm uppercase text-white mix-blend-difference"
+      className="relative z-10 block px-3 py-1.5 text-sm uppercase text-white mix-blend-difference"
       {...props}
     >
-      <Link href={href}>{children}</Link>
+      <Link href={href} className="block cursor-pointer w-full h-full">{children}</Link>
     </li>
   );
 };

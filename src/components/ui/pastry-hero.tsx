@@ -172,27 +172,37 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, translate }) => {
       }}
       whileHover={{
         y: -20,
+        transition: {
+          duration: 0.3,
+          ease: "easeOut"
+        }
       }}
       key={product.title}
       className="group/product h-[500px] w-[600px] relative flex-shrink-0"
     >
       <Link
         href={product.link}
-        className="block group-hover/product:shadow-2xl"
+        className="block group-hover/product:shadow-2xl transition-shadow duration-300"
       >
         <Image
           src={product.thumbnail}
           height={600}
           width={600}
-          className="object-cover object-left-top absolute h-full w-full inset-0 rounded-lg"
+          className="object-cover object-left-top absolute h-full w-full inset-0 rounded-lg transition-transform duration-300 group-hover/product:scale-[1.02]"
           alt={product.title}
           priority
         />
       </Link>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-90 bg-background/90 pointer-events-none rounded-lg transition-all duration-300"></div>
-      <h2 className="absolute bottom-6 left-6 opacity-0 group-hover/product:opacity-100 text-xl font-display tracking-wide transition-all duration-300">
+      <motion.div 
+        className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-90 bg-background/90 pointer-events-none rounded-lg"
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      />
+      <motion.h2 
+        className="absolute bottom-6 left-6 opacity-0 group-hover/product:opacity-100 text-xl font-display tracking-wide"
+        transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
+      >
         {product.title}
-      </h2>
+      </motion.h2>
     </motion.div>
   );
 };
@@ -207,32 +217,24 @@ export function PastryHero() {
     offset: ["start start", "end start"],
   });
 
-  const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
+  // Smoother spring config
+  const springConfig = { 
+    stiffness: 70,  // Reduced for smoother motion
+    damping: 30,    // Balanced damping
+    mass: 1.5,      // Added mass for more inertia
+    restDelta: 0.001 // More precise rest position
+  };
 
-  const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1200]),
-    springConfig
-  );
-  const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1200]),
-    springConfig
-  );
-  const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig
-  );
-  const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig
-  );
-  const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig
-  );
-  const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-300, 200]),
-    springConfig
-  );
+  // Create a smoothed progress
+  const smoothProgress = useSpring(scrollYProgress, springConfig);
+
+  // Refined motion values
+  const translateX = useTransform(smoothProgress, [0, 1], [0, 800]);
+  const translateXReverse = useTransform(smoothProgress, [0, 1], [0, -800]);
+  const rotateX = useTransform(smoothProgress, [0, 0.2], [10, 0]);
+  const opacity = useTransform(smoothProgress, [0, 0.2], [0.3, 1]);
+  const rotateZ = useTransform(smoothProgress, [0, 0.2], [12, 0]);
+  const translateY = useTransform(smoothProgress, [0, 0.2], [-200, 100]);
 
   return (
     <div
@@ -243,10 +245,9 @@ export function PastryHero() {
         <div className="max-w-7xl relative mx-auto py-16 px-4 w-full left-0 top-0">
           <motion.h1 
             className="text-5xl md:text-7xl xl:text-8xl font-display text-foreground tracking-tight leading-[1.1] mb-8"
-            initial={{ opacity: 0.5, y: 30
-             }}
+            initial={{ opacity: 0.5, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
             Crafting Sweet{" "}
             <span className="text-primary relative inline-block">
@@ -255,7 +256,7 @@ export function PastryHero() {
                 className="absolute -z-10 bottom-2 left-0 h-3 bg-primary/20 w-full"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
+                transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
               />
             </span>
           </motion.h1>
@@ -264,7 +265,7 @@ export function PastryHero() {
             className="max-w-2xl text-lg md:text-xl xl:text-2xl mt-8 text-muted-foreground font-body font-light leading-relaxed tracking-wide"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
           >
             Experience the artistry of our handcrafted cakes and pastries, where every creation tells a unique story of flavor and beauty.
           </motion.p>
@@ -272,12 +273,12 @@ export function PastryHero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
             className="mt-12"
           >
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-8 text-xl font-medium tracking-wide group"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-8 text-xl font-medium tracking-wide group transition-colors duration-300"
               asChild
             >
               <Link href="/menu" className="flex items-center gap-3">

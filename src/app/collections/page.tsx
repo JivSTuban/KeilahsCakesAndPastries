@@ -36,8 +36,36 @@ const getDescription = (categoryName: string): string => {
   }
 };
 
+// Function to get collection anchor id for a category that matches SPECIALTY_LINKS
+const getCategoryId = (name: string): string | undefined => {
+  switch (name) {
+    // Wedding Cakes section
+    case "Customized 3 Tier":
+      return "wedding";
+    
+    // Birthday Cakes section (2-tier cakes)
+    case "Customized 2 Tier":
+      return "birthday";
+    
+    // Baby Dedication section
+    case "Baby Dedication":
+      return "baby-dedication";
+    
+    // Number Cakes section
+    case "Number and Letter":
+      return "number-cakes";
+    
+    // Custom Designs section (1-tier cakes)
+    case "Customized 1 Tier":
+      return "custom";
+      
+    default:
+      return undefined;
+  }
+};
+
 const CAKE_CATEGORIES = [
-  // 30 images
+  // Custom Designs (Customized 1 Tier)
   { name: "Customized 1 Tier", path: "/CustomizedCakes/1TierCakes", images: [
     getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_2126.JPG"),
     getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3104.JPG"),
@@ -70,7 +98,7 @@ const CAKE_CATEGORIES = [
     getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3239.JPG"),
     getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3241.JPG")
   ]},
-  // 16 images
+  // Birthday Cakes (Customized 2 Tier)
   { name: "Customized 2 Tier", path: "/CustomizedCakes/2TierCakes", images: [
     getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3108.JPG"),
     getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3109.JPG"),
@@ -89,7 +117,53 @@ const CAKE_CATEGORIES = [
     getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_3237.JPG"),
     getCloudinaryUrl("/CustomizedCakes/2TierCakes/IMG_6094.JPG")
   ]},
-  // 13 images
+  // Wedding Cakes (Customized 3 Tier)
+  { name: "Customized 3 Tier", path: "/CustomizedCakes/3TierCakes", images: [
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3107.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3168.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3170.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3176.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3180.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3182.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3183.JPG")
+  ]},
+  
+  // Baby Dedication
+  { name: "Baby Dedication", path: "/BabyDedicationCakes", images: [
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3155.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3192.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3193.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3196.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3229.JPG")
+  ]},
+  // Number Cakes
+  { name: "Number and Letter", path: "/NumberandLetterCakes", images: [
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3133.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3151.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3197.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3220.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3221.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3222.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3223.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3224.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3231.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3232.JPG"),
+    getCloudinaryUrl("/NumberandLetterCakes/IMG_3233.JPG")
+  ]},
+  
+  // Additional Categories (not in specialty links but still displayed)
+  { name: "Debut Cakes", path: "/DebutCakes", images: [
+    getCloudinaryUrl("/DebutCakes/IMG_3105.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3111.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3112.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3173.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3179.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3185.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3189.JPG"),
+    getCloudinaryUrl("/DebutCakes/IMG_3194.JPG")
+  ]},
   { name: "Bento and Combos", path: "/BentoandCombos", images: [
     getCloudinaryUrl("/BentoandCombos/IMG_3118.JPG"),
     getCloudinaryUrl("/BentoandCombos/IMG_3119.JPG"),
@@ -105,38 +179,6 @@ const CAKE_CATEGORIES = [
     getCloudinaryUrl("/BentoandCombos/IMG_3210.JPG"),
     getCloudinaryUrl("/BentoandCombos/IMG_3211.JPG")
   ]},
-  // 8 images
-  { name: "Debut Cakes", path: "/DebutCakes", images: [
-    getCloudinaryUrl("/DebutCakes/IMG_3105.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3111.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3112.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3173.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3179.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3185.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3189.JPG"),
-    getCloudinaryUrl("/DebutCakes/IMG_3194.JPG")
-  ]},
-  // 7 images
-  { name: "Baby Dedication", path: "/BabyDedicationCakes", images: [
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3149.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3155.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3192.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3193.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3196.JPG"),
-    getCloudinaryUrl("/BabyDedicationCakes/IMG_3229.JPG")
-  ]},
-  // 7 images
-  { name: "Customized 3 Tier", path: "/CustomizedCakes/3TierCakes", images: [
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3107.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3168.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3170.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3176.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3180.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3182.JPG"),
-    getCloudinaryUrl("/CustomizedCakes/3TierCakes/IMG_3183.JPG")
-  ]},
-  // 12 images
   { name: "All in One Package", path: "/ALLINONEPACKAGE", images: [
     getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3086.JPG"),
     getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3087.JPG"),
@@ -150,20 +192,6 @@ const CAKE_CATEGORIES = [
     getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3095.JPG"),
     getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3096.JPG"),
     getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3097.JPG")
-  ]},
-  // 11 images
-  { name: "Number and Letter", path: "/NumberandLetterCakes", images: [
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3133.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3151.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3197.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3220.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3221.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3222.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3223.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3224.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3231.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3232.JPG"),
-    getCloudinaryUrl("/NumberandLetterCakes/IMG_3233.JPG")
   ]}
 ];
 
@@ -193,46 +221,49 @@ export default function FeaturedPage() {
 
       {/* Collections */}
       <div className="space-y-24 py-16">
-        {CAKE_CATEGORIES.map((category, index) => (
-          <div key={category.name} className="space-y-8">
-            <div className="container mx-auto px-4">
-              <h2 className="text-4xl font-display text-foreground text-center mb-3">{category.name}</h2>
-              <p className="text-lg text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
-                {getDescription(category.name)}
-              </p>
-            </div>
-            
-            <div className="relative">
-              {/* Gradient Overlays */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+        {CAKE_CATEGORIES.map((category, index) => {
+          const id = getCategoryId(category.name);
+          return (
+            <div key={category.name} id={id} className="space-y-8">
+              <div className="container mx-auto px-4">
+                <h2 className="text-4xl font-display text-foreground text-center mb-3">{category.name}</h2>
+                <p className="text-lg text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
+                  {getDescription(category.name)}
+                </p>
+              </div>
               
-              <InfiniteSlider 
-                duration={80} 
-                durationOnHover={120} 
-                gap={32}
-                reverse={index % 2 === 1}
-                className="py-4"
-              >
-                {category.images.map((src, imgIndex) => (
-                  <div
-                    key={imgIndex}
-                    className="relative aspect-square w-[300px] rounded-xl overflow-hidden shadow-lg"
-                  >
-                    <Image
-                      src={src}
-                      alt={`${category.name} ${imgIndex + 1}`}
-                      fill
-                      className="object-cover hover:scale-110 transition-transform duration-700"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                ))}
-              </InfiniteSlider>
+              <div className="relative">
+                {/* Gradient Overlays */}
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+                
+                <InfiniteSlider 
+                  duration={80} 
+                  durationOnHover={120} 
+                  gap={32}
+                  reverse={index % 2 === 1}
+                  className="py-4"
+                >
+                  {category.images.map((src, imgIndex) => (
+                    <div
+                      key={imgIndex}
+                      className="relative aspect-square w-[300px] rounded-xl overflow-hidden shadow-lg"
+                    >
+                      <Image
+                        src={src}
+                        alt={`${category.name} ${imgIndex + 1}`}
+                        fill
+                        className="object-cover hover:scale-110 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  ))}
+                </InfiniteSlider>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* CTA Section */}

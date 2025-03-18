@@ -40,7 +40,7 @@ export default function MenuPage() {
                   src={getCloudinaryUrl("/KeilahClassics/IMG_3084.JPG")}
                   alt="Featured Cake 1"
                   fill
-                  className="object-cover rounded-full border-4 border-background shadow-xl transform -rotate-12 opacity-80"
+                  className="object-cover rounded-full border-4 border-background shadow-xl transform -rotate-12 opacity-100"
                 />
               </div>
               <div className="absolute top-1/2 -translate-y-1/2 -right-4 w-32 h-32">
@@ -48,7 +48,7 @@ export default function MenuPage() {
                   src={getCloudinaryUrl("/WeddingCakes/IMG_3113.JPG")}
                   alt="Featured Cake 2"
                   fill
-                  className="object-cover rounded-full border-4 border-background shadow-xl transform rotate-12 opacity-80"
+                  className="object-cover rounded-full border-4 border-background shadow-xl transform rotate-12 opacity-100"
                 />
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function MenuPage() {
       </section>
 
       {/* Menu Categories */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container-lg mx-auto px-4 py-12 max-w-[90rem]">
         {menuData.map((category, index) => (
           <div key={index} className="mb-20 last:mb-0">
             {/* Category Header */}
