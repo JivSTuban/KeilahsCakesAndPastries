@@ -8,7 +8,7 @@ export default function Home() {
       <div className="relative">
         <PastryHero />
       </div>
-      <div className="relative z-10 mt-[120vh]">
+      <div className="relative z-10 mt-[90vh]">
         <div className="relative bg-background">
           <CakeCategoryGrid />
         </div>

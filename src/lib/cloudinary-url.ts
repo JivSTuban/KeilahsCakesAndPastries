@@ -1,9 +1,15 @@
-export function getCloudinaryUrl(localPath: string): string {
+export function getCloudinaryUrl(localPath: string, options?: { circular?: boolean }): string {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   const publicId = getCloudinaryPublicId(localPath);
   
+  // Build transformation parameters
+  const transforms = ['f_auto', 'q_auto'];
+  if (options?.circular) {
+    transforms.push('c_fill', 'r_max');
+  }
+  
   // Construct the Cloudinary URL with optimization parameters
-  return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/v1/${publicId}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transforms.join(',')}/v1/${publicId}`;
 }
 
 export function getCloudinaryPublicId(localPath: string): string {
