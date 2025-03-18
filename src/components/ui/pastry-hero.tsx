@@ -214,7 +214,7 @@ export function PastryHero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ["start start", "end center"],
   });
 
   // Smoother spring config
@@ -228,18 +228,18 @@ export function PastryHero() {
   // Create a smoothed progress
   const smoothProgress = useSpring(scrollYProgress, springConfig);
 
-  // Refined motion values
-  const translateX = useTransform(smoothProgress, [0, 1], [0, 800]);
-  const translateXReverse = useTransform(smoothProgress, [0, 1], [0, -800]);
-  const rotateX = useTransform(smoothProgress, [0, 0.2], [10, 0]);
-  const opacity = useTransform(smoothProgress, [0, 0.2], [0.3, 1]);
-  const rotateZ = useTransform(smoothProgress, [0, 0.2], [12, 0]);
-  const translateY = useTransform(smoothProgress, [0, 0.2], [-200, 100]);
+  // Refined motion values for shorter scroll
+  const translateX = useTransform(smoothProgress, [0, 0.8], [0, 600]);
+  const translateXReverse = useTransform(smoothProgress, [0, 0.8], [0, -600]);
+  const rotateX = useTransform(smoothProgress, [0, 0.3], [8, 0]);
+  const opacity = useTransform(smoothProgress, [0, 0.3], [0.3, 1]);
+  const rotateZ = useTransform(smoothProgress, [0, 0.3], [8, 0]);
+  const translateY = useTransform(smoothProgress, [0, 0.3], [-150, 50]);
 
   return (
     <div
       ref={ref}
-      className="relative h-[150vh] [perspective:1000px] [transform-style:preserve-3d]"
+      className="relative h-[120vh] [perspective:1000px] [transform-style:preserve-3d]"
     >
       <div className="sticky top-0 left-0 w-full h-screen">
         <div className="max-w-7xl relative mx-auto py-16 px-4 w-full left-0 top-0">
