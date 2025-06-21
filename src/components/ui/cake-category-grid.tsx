@@ -109,7 +109,7 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
           
           {/* Content Overlay */}
           <div className={cn(
-            "absolute inset-0 p-8 flex flex-col justify-end transform transition-all duration-500",
+            "absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col justify-end transform transition-all duration-500", // Responsive padding
             isHovered ? "translate-y-0 opacity-100 scale-100" : "translate-y-4 opacity-0 scale-95"
           )}>
             <h3 className="text-2xl font-display text-white mb-3 drop-shadow-md">
