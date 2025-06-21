@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useScrollDirection } from "@/hooks/use-scroll-direction";
 import { cn } from "@/lib/utils";
 import { NavLink } from "@/components/ui/nav-link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react"; // Import Menu and X icons
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
@@ -18,6 +19,11 @@ const NAV_ITEMS = [
 
 export function PastryNavbar() {
   const { isScrolled, isScrollingUp } = useScrollDirection();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <motion.header 
@@ -82,7 +88,48 @@ export function PastryNavbar() {
         <nav className="hidden md:flex items-center space-x-6">
           <NavList />
         </nav>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+            className={cn(isScrolled ? "text-primary" : "text-foreground")}
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
+        </div>
       </div>
+
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden absolute top-full left-0 right-0 bg-background/95 shadow-lg border-t border-border/50"
+            style={{ backdropFilter: "blur(10px)" }}
+          >
+            <ul className="flex flex-col items-center space-y-2 p-4">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href} className="w-full">
+                  <Link
+                    href={item.href}
+                    className="block w-full text-center py-3 text-lg font-medium text-foreground hover:text-primary transition-colors rounded-md hover:bg-primary/10"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

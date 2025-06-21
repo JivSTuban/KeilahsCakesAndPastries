@@ -27,7 +27,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
         </div>
       )}
 
-      <div className="p-6 space-y-4">
+      <div className="p-4 sm:p-6 space-y-3 sm:space-y-4"> {/* Responsive padding and space */}
         {/* Item Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
