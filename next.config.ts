@@ -14,11 +14,10 @@ const nextConfig: NextConfig = {
     formats: ['image/webp'],
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-    minify: false
+    removeConsole: process.env.NODE_ENV === 'production'
   },
   experimental: {
-    optimizeCss: false
+    optimizeCss: true
   }
 };
 
