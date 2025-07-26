@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { Feedback } from '@/types/feedback';
 
@@ -21,7 +21,7 @@ interface PaginatedFeedbackResult {
   refresh: () => void;
 }
 
-export function useApprovedFeedback(props: UsePaginatedFeedbackProps = {}): PaginatedFeedbackResult {
+export function useFeedback(props: UsePaginatedFeedbackProps = {}): PaginatedFeedbackResult {
   const { pageSize = 6 } = props;
   const [feedback, setFeedback] = useState<Feedback[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,16 +33,16 @@ export function useApprovedFeedback(props: UsePaginatedFeedbackProps = {}): Pagi
   const hasNextPage = currentPage < totalPages;
   const hasPreviousPage = currentPage > 1;
 
-  async function loadFeedback(page: number = 1) {
+  const loadFeedback = useCallback(async (page: number = 1) => {
     try {
       setIsLoading(true);
       setError("");
       
-      // Get total count
+      // Get total count - show all feedback except rejected ones
       const { count } = await supabase
         .from("feedback")
         .select("*", { count: 'exact', head: true })
-        .eq("status", "approved");
+        .neq("status", "rejected");
       
       setTotalCount(count || 0);
       
@@ -53,7 +53,7 @@ export function useApprovedFeedback(props: UsePaginatedFeedbackProps = {}): Pagi
       const { data, error: fetchError } = await supabase
         .from("feedback")
         .select("*")
-        .eq("status", "approved")
+        .neq("status", "rejected")
         .order("rating", { ascending: false })
         .order("created_at", { ascending: false })
         .range(from, to);
@@ -62,16 +62,41 @@ export function useApprovedFeedback(props: UsePaginatedFeedbackProps = {}): Pagi
       setFeedback(data || []);
       setCurrentPage(page);
     } catch (err) {
-      console.error("Error loading approved feedback:", err);
+      console.error("Error loading feedback:", err);
       setError("Failed to load testimonials");
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [pageSize]);
 
   useEffect(() => {
     loadFeedback(1);
-  }, [pageSize]);
+
+    // Set up realtime subscription for immediate updates
+    const subscription = supabase
+      .channel('feedback-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to all changes (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'feedback',
+          filter: 'status=neq.rejected' // Only listen to non-rejected feedback
+        },
+        (payload) => {
+          console.log('Realtime feedback update:', payload);
+          
+          // Refresh the current page when there's any change
+          loadFeedback(currentPage);
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [loadFeedback, currentPage]);
 
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -110,3 +135,6 @@ export function useApprovedFeedback(props: UsePaginatedFeedbackProps = {}): Pagi
     refresh 
   };
 }
+
+// Keep the old function name for backward compatibility
+export const useApprovedFeedback = useFeedback;

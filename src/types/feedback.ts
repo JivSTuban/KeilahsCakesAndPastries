@@ -9,5 +9,5 @@ export interface Feedback {
 }
 
 export type FeedbackInsert = Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'> & {
-  status?: string;
+  status?: string; // Will default to 'approved' in the application
 };

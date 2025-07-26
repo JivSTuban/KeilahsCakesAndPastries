@@ -54,7 +54,7 @@ export function PastryHero() {
   }, [productsToShow.length]);
 
   return (
-    <div className="relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
+    <div className="relative w-full h-screen overflow-hidden">
       {/* Background Slideshow */}
       <motion.div
         key={currentSlide}
@@ -76,10 +76,10 @@ export function PastryHero() {
       {/* Black Mask Overlay */}
       <div className="absolute inset-0 bg-black/60" />
 
-      {/* Content Overlay - Upper left positioned */}
-      <div className="relative z-10 flex flex-col justify-start pt-12 sm:pt-20 lg:pt-32 xl:pt-40 h-full px-4 sm:px-8 lg:px-16 xl:px-20 max-w-5xl xl:max-w-6xl">
+      {/* Content Overlay - Left aligned like original */}
+      <div className="relative z-10 flex flex-col justify-center h-full px-4 sm:px-8 lg:px-16 max-w-4xl">
         <motion.h1
-          className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-display text-white tracking-tight leading-[1.1] mb-4 sm:mb-6 lg:mb-8"
+          className="text-4xl sm:text-5xl lg:text-6xl font-display text-white tracking-tight leading-[1.1] mb-6"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -88,7 +88,7 @@ export function PastryHero() {
           <span className="text-primary relative inline-block">
             Moments
             <motion.span
-              className="absolute -z-10 bottom-1 left-0 h-1 sm:h-2 lg:h-3 xl:h-4 bg-primary/30 w-full"
+              className="absolute -z-10 bottom-1 left-0 h-2 bg-primary/30 w-full"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
@@ -97,7 +97,7 @@ export function PastryHero() {
         </motion.h1>
 
         <motion.p
-          className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-sm sm:text-lg lg:text-2xl xl:text-3xl text-white/90 font-body font-light leading-relaxed tracking-wide mb-6 sm:mb-10 lg:mb-12"
+          className="max-w-2xl text-lg sm:text-xl text-white/90 font-body font-light leading-relaxed tracking-wide mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -112,10 +112,10 @@ export function PastryHero() {
         >
           <Button
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-4 sm:px-8 sm:py-6 lg:px-12 lg:py-8 xl:px-16 xl:py-10 text-base sm:text-lg lg:text-xl xl:text-2xl font-medium tracking-wide group transition-colors duration-300"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-medium tracking-wide group transition-colors duration-300"
             asChild
           >
-            <Link href="/menu" className="flex items-center gap-2 sm:gap-3 lg:gap-4 text-white">
+            <Link href="/menu" className="flex items-center gap-3 text-white">
               Explore Our Menu
               <motion.span
                 animate={{
@@ -127,7 +127,7 @@ export function PastryHero() {
                   },
                 }}
               >
-                <ArrowRightIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10" />
+                <ArrowRightIcon className="w-6 h-6" />
               </motion.span>
             </Link>
           </Button>

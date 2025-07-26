@@ -2,29 +2,20 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Only protect /admin routes
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    const basicAuth = request.headers.get('authorization');
-    const url = request.nextUrl;
-
-    if (basicAuth) {
-      const authValue = basicAuth.split(' ')[1];
-      const [user, pwd] = atob(authValue).split(':');
-
-      // Use environment variables for credentials (set these in your .env)
-      if (user === process.env.ADMIN_USER && pwd === process.env.ADMIN_PASS) {
-        return NextResponse.next();
-      }
-    }
-    url.pathname = '/api/auth';
-
-    return new NextResponse('Auth required', {
-      status: 401,
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
-      },
-    });
-  }
-
+  // Admin routes are now protected by Supabase auth in the page component
+  // This middleware is available for future API route protection if needed
   return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 }

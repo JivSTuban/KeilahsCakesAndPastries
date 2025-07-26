@@ -3,8 +3,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Cake, Star } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -15,9 +14,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { AuroraButton } from "@/components/ui/aurora-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/lib/supabase";
 import type { FeedbackInsert } from "@/types/feedback";
 
@@ -26,10 +26,20 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const resetForm = () => {
+    setName("");
+    setMessage("");
+    setRating(null);
+    setHoveredRating(null);
+    setError("");
+    setSuccess(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +51,7 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
         customer_name: name || null,
         message: message || null,
         rating,
-        status: "pending"
+        status: "approved" // Auto-approve all feedback
       };
 
       const { error: submitError } = await supabase
@@ -51,16 +61,12 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
       if (submitError) throw submitError;
 
       setSuccess(true);
-      // Keep the success message visible for 3 seconds before closing
+      // Keep the success message visible for 2 seconds before closing
       setTimeout(() => {
         setIsOpen(false);
         router.refresh();
-        // Reset form state
-        setName("");
-        setMessage("");
-        setRating(null);
-        setSuccess(false);
-      }, 3000);
+        resetForm();
+      }, 2000);
     } catch (err) {
       console.error("Error submitting feedback:", err);
       setError("Failed to submit feedback. Please try again.");
@@ -70,46 +76,39 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      setIsOpen(open);
+      if (!open) {
+        resetForm();
+      }
+    }}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] bg-white backdrop-blur supports-[backdrop-filter]:bg-white">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-center gap-3 text-2xl text-foreground">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[600px] max-h-[90vh] overflow-hidden bg-white rounded-lg">
+        <DialogHeader className="text-center">
+          <DialogTitle className="text-2xl font-semibold">
             Share Your Experience
           </DialogTitle>
-          <DialogDescription className="text-center text-muted-foreground">
-            Your feedback helps us improve and deliver better experiences to our customers
+          <DialogDescription>
+            Your feedback helps us improve our service
           </DialogDescription>
         </DialogHeader>
 
-        <AnimatePresence mode="wait">
+        <div className="space-y-4">
           {success ? (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="min-h-[300px] flex items-center justify-center"
-            >
-              <div className="text-center space-y-1">
-                <p className="text-xl text-green-600 dark:text-green-500 font-medium">
-                  Thank you for your feedback!
-                </p>
-                <p className="text-lg text-muted-foreground">
-                  Your feedback is awaiting approval before being displayed on the site.
-                </p>
+              <div className="text-center py-8">
+                <div className="text-green-600 text-lg mb-2">✓ Thank you for your feedback!</div>
+                <p className="text-gray-600">Your feedback has been posted successfully.</p>
               </div>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Your Name
-                  </label>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="name">Your Name <span className="text-gray-500">(required)</span></Label>
                   <Input
+                    id="name"
                     placeholder="Enter your name"
+                    className="mt-1"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     disabled={isSubmitting}
@@ -117,21 +116,21 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Rating
-                  </label>
-                  <div className="flex gap-2">
+                <div>
+                  <Label>Rating <span className="text-gray-500">(required)</span></Label>
+                  <div className="flex gap-1 py-2">
                     {[1, 2, 3, 4, 5].map((value) => (
                       <button
                         key={value}
                         type="button"
                         onClick={() => setRating(value)}
+                        onMouseEnter={() => setHoveredRating(value)}
+                        onMouseLeave={() => setHoveredRating(null)}
                         className={cn(
-                          "p-2 rounded-lg transition-colors cursor-pointer",
-                          rating && rating >= value
-                            ? "text-yellow-400 hover:text-yellow-500"
-                            : "text-gray-300 hover:text-yellow-400"
+                          "transition-colors",
+                          (hoveredRating && value <= hoveredRating) || (!hoveredRating && rating && value <= rating)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
                         )}
                         disabled={isSubmitting}
                       >
@@ -139,61 +138,58 @@ export function FeedbackModal({ children }: { children: React.ReactNode }) {
                       </button>
                     ))}
                   </div>
-                  {!rating && <p className="text-sm text-destructive">Please select a rating</p>}
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Your Message 
-                  </label>
+                <div>
+                  <Label htmlFor="message">Your Experience <span className="text-gray-500">(required)</span></Label>
                   <Textarea
-                    placeholder="Share your thoughts about our products and services..."
-                    className="min-h-[120px]"
+                    id="message"
+                    placeholder="Tell us about your experience..."
+                    className="min-h-[100px] mt-1"
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value.length <= 500) {
+                        setMessage(e.target.value);
+                      }
+                    }}
                     disabled={isSubmitting}
                     required
+                    maxLength={500}
                   />
-                  {!message && <p className="text-sm text-destructive">Please enter your message</p>}
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs text-gray-400 ml-auto">
+                      {message.length}/500
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {error && (
-                <p className="text-sm text-destructive text-center">{error}</p>
-              )}
+                {error && (
+                  <Alert className="border-red-200 bg-red-50">
+                    <AlertDescription className="text-red-800">
+                      {error}
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-              <div className="flex justify-end gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="min-w-[100px] cursor-pointer disabled:cursor-not-allowed"
-                  onClick={() => setIsOpen(false)}
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </Button>
-                <AuroraButton
-                  type="submit"
-                  className="min-w-[100px]"
-                  glowClassName={cn(
-                    "opacity-0 transition-opacity duration-300",
-                    rating && message && name ? "opacity-75" : "opacity-0"
-                  )}
-                  disabled={isSubmitting || !rating || !message || !name}
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center gap-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                      Submitting...
-                    </div>
-                  ) : (
-                    "Submit"
-                  )}
-                </AuroraButton>
-              </div>
-            </form>
-          )}
-        </AnimatePresence>
+                <div className="flex justify-end gap-3 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsOpen(false)}
+                    disabled={isSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || !rating || !message || !name}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Feedback"}
+                  </Button>
+                </div>
+              </form>
+            )}
+        </div>
       </DialogContent>
     </Dialog>
   );

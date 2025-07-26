@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { createClient } from "@supabase/supabase-js"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import { CleanupUtility } from "@/components/admin/cleanup-utility"
 import {
   Table,
   TableBody,
@@ -113,6 +114,11 @@ export function FeedbackManagement() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Feedback</h2>
+      </div>
+
+      {/* Cleanup Utility */}
+      <div className="mb-6">
+        <CleanupUtility onCleanupComplete={fetchFeedback} />
       </div>
 
       <div className="border rounded-lg">
