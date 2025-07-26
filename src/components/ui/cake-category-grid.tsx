@@ -77,7 +77,7 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
         onMouseEnter={() => onHover(index)}
         onMouseLeave={() => onHover(null)}
       >
-        <div className="aspect-[4/3] relative overflow-hidden">
+        <div className="aspect-[5/4] relative overflow-hidden">
           <motion.div
             ref={imageRef}
             style={{ y }}
@@ -89,33 +89,46 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
               fill
               className={cn(
                 "object-cover transition-all duration-700 ease-out",
-                isHovered ? "scale-110 blur-[2px]" : "scale-100"
+                isHovered ? "scale-110 blur-[1px]" : "scale-100"
               )}
             />
           </motion.div>
+          
+          {/* White gradient overlay for mobile */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white to-transparent"></div>
+          
+          {/* Desktop hover overlay */}
           <motion.div 
-            className="absolute inset-0"
+            className="absolute inset-0 hidden md:block"
             initial={false}
             animate={isHovered ? {
-              background: [
-                "linear-gradient(to top, rgba(251, 146, 60, 0.95), rgba(251, 146, 60, 0.3), transparent)",
-                "linear-gradient(to top, rgba(251, 146, 60, 0.95), rgba(251, 146, 60, 0.4), transparent)"
-              ]
+              background: "linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0))"
             } : {
-              background: "linear-gradient(to top, rgba(251, 146, 60, 0), rgba(251, 146, 60, 0), transparent)"
+              background: "linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), transparent)"
             }}
             transition={{ duration: 0.3 }}
           />
           
-          {/* Content Overlay */}
-          <div className={cn(
-            "absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col justify-end transform transition-all duration-500", // Responsive padding
-            isHovered ? "translate-y-0 opacity-100 scale-100" : "translate-y-4 opacity-0 scale-95"
-          )}>
-            <h3 className="text-2xl font-display text-white mb-3 drop-shadow-md">
+          {/* Mobile-visible content (always visible) */}
+          <div className="absolute bottom-0 left-0 right-0 p-3">
+            <h3 className="text-base font-display text-foreground font-medium mb-0.5">
               {category.title}
             </h3>
-            <p className="font-body text-white/90 text-sm line-clamp-2 mb-6 drop-shadow">
+            <div className="flex items-center">
+              <span className="text-xs font-body text-primary font-medium">View Collection</span>
+              <ChevronRight className="h-3 w-3 ml-1 text-primary" />
+            </div>
+          </div>
+          
+          {/* Desktop hover content - hidden on all devices */}
+          <div className={cn(
+            "absolute inset-0 p-4 flex flex-col justify-end transform transition-all duration-500 hidden", 
+            isHovered ? "translate-y-0 opacity-100 scale-100" : "translate-y-4 opacity-0 scale-95"
+          )}>
+            <h3 className="text-xl font-display text-foreground mb-2 font-medium">
+              {category.title}
+            </h3>
+            <p className="font-body text-muted-foreground text-sm line-clamp-2 mb-4">
               {category.description}
             </p>
             <motion.div
@@ -126,10 +139,11 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
               } : {}}
             >
               <Button
-                variant="secondary"
+                variant="outline"
+                size="sm"
                 className={cn(
-                  "w-fit transition-all duration-500 bg-white/90 hover:bg-white cursor-pointer",
-                  "shadow-lg hover:shadow-xl"
+                  "w-fit transition-all duration-500 bg-white border-primary text-primary hover:bg-primary hover:text-white cursor-pointer",
+                  "shadow-sm hover:shadow-md"
                 )}
               >
                 View Collection
@@ -158,23 +172,23 @@ export function CakeCategoryGrid() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-20 md:py-32 overflow-hidden">
+    <section className="w-full max-w-7xl mx-auto px-4 py-16 md:py-24 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20"
+        className="text-center mb-12 md:mb-16"
       >
         <div className="flex items-center justify-center mb-4">
-          <Cake className="h-10 w-10 text-primary mr-4" />
-          <h2 className="text-4xl md:text-5xl font-display text-foreground">Our Specialties</h2>
+          <Cake className="h-8 w-8 text-primary mr-3 md:h-10 md:w-10 md:mr-4" />
+          <h2 className="text-3xl md:text-5xl font-display text-foreground">Our Specialties</h2>
         </div>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-body leading-relaxed">
+        <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-body leading-relaxed">
           Discover our handcrafted cakes made with love for every special moment
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 perspective-1000 relative z-10">
+      <div className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-6 md:gap-8 perspective-1000 relative z-10 max-w-4xl mx-auto">
         {CAKE_CATEGORIES.map((category, index) => (
           <CategoryCard 
             key={category.id}

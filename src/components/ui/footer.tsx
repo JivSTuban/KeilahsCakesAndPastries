@@ -13,10 +13,10 @@ const QUICK_LINKS = [
 export function Footer() {
   return (
     <footer className="bg-secondary/30 border-t border-border/50">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="grid grid-cols-2 gap-8 sm:gap-10 md:grid-cols-4 lg:gap-12">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <div className="col-span-2 space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-3">
               <Image
                 src={getCloudinaryUrl("/keilahs-logo.jpg")}
@@ -28,7 +28,7 @@ export function Footer() {
               />
               <div className="flex flex-col">
                 <span className="text-xl font-display text-primary">Keilah's</span>
-                <span className="text-sm font-body text-muted-foreground tracking-wider uppercase">
+                <span className="text-xs sm:text-sm font-body text-muted-foreground tracking-wider uppercase">
                   Cakes & Pastries
                 </span>
               </div>
@@ -39,8 +39,8 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="font-display text-foreground text-lg mb-4">Quick Links</h3>
+          <div className="space-y-3">
+            <h3 className="font-display text-foreground text-base sm:text-lg mb-2 sm:mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.name}>
@@ -55,9 +55,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Credits hehe */}
-          <div>
-            <h3 className="font-display text-foreground text-lg mb-4">Developer</h3>
+          {/* Credits */}
+          <div className="space-y-3">
+            <h3 className="font-display text-foreground text-base sm:text-lg mb-2 sm:mb-4">Developer</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -83,11 +83,11 @@ export function Footer() {
           </div>
 
           {/* Contact Information */}
-          <div>
-            <h3 className="font-display text-foreground text-lg mb-4">Get in Touch</h3>
+          <div className="col-span-2 space-y-3 md:col-span-1">
+            <h3 className="font-display text-foreground text-base sm:text-lg mb-2 sm:mb-4">Get in Touch</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-primary mt-0.5" />
+                <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-body text-muted-foreground">
                     Basak, Lapu-Lapu City
@@ -98,23 +98,24 @@ export function Footer() {
                 </div>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
+                <Phone className="h-5 w-5 text-primary flex-shrink-0" />
                 <span className="text-sm font-body text-muted-foreground">
                   +63 927 983 5826
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Clock className="h-5 w-5 text-primary" />
+                <Clock className="h-5 w-5 text-primary flex-shrink-0" />
                 <span className="text-sm font-body text-muted-foreground">
                   Pre-order: 2-3 days advance
                 </span>
               </li>
-              <li className="flex items-center gap-3 mt-4">
+              <li className="flex items-center gap-4 mt-4">
                 <Link
                   href="https://facebook.com/keilahspastriesndesserts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:text-primary/80 transition-colors"
+                  aria-label="Facebook"
                 >
                   <Facebook className="h-5 w-5" />
                 </Link>
@@ -123,6 +124,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:text-primary/80 transition-colors"
+                  aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5" />
                 </Link>
@@ -132,8 +134,8 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-border/50">
-          <p className="text-center text-sm font-body text-muted-foreground">
+        <div className="mt-8 pt-6 border-t border-border/50 sm:mt-12">
+          <p className="text-center text-xs sm:text-sm font-body text-muted-foreground">
             © {new Date().getFullYear()} Keilah's Cakes & Pastries. All rights reserved.
           </p>
         </div>
