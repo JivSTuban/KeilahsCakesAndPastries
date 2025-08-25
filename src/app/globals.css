@@ -71,8 +71,8 @@ body {
   100% {
     background-position: 0% 50%;
     opacity: 0.8;
+    animation-timing-function: ease-in-out;
   }
-  animation-timing-function: ease-in-out;
 }
 
 /* Enhanced Animations */
@@ -135,4 +135,10 @@ body {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
+}
+
+/* Required form fields */
+label.required:after {
+  content: " *";
+  color: hsl(var(--destructive));
 }

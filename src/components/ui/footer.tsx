@@ -71,6 +71,16 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="https://aldrinvitorillo.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Aldrin Vitorillo
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="https://rotosystems.net"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -79,6 +89,7 @@ export function Footer() {
                   roto.
                 </Link>
               </li>
+             
             </ul>
           </div>
 

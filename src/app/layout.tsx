@@ -63,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${cormorantGaramond.variable} ${montserrat.variable} antialiased`}>
+      <body suppressHydrationWarning className={`${cormorantGaramond.variable} ${montserrat.variable} antialiased`}>
         <Providers>
           <div className="min-h-screen flex flex-col bg-background font-sans">
             <PastryNavbar />

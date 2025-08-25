@@ -1,15 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { CloudinaryImage } from "@/components/ui/cloudinary-image";
 import { getCloudinaryPublicId, isCloudinaryId } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
 import { type MenuItem } from "@/types/menu";
+import { OrderForm } from "@/components/ui/order-form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface MenuItemCardProps {
   item: MenuItem;
 }
 
 export function MenuItemCard({ item }: MenuItemCardProps) {
+  const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
+  const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
   return (
     <div className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg">
       {/* Item Image */}
@@ -57,10 +67,14 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
         {/* Prices */}
         <div className="space-y-2">
           {item.prices.map((price, priceIndex) => (
-            <div 
+            <button 
               key={priceIndex}
+              onClick={() => {
+                setSelectedPriceIndex(priceIndex);
+                setIsOrderDialogOpen(true);
+              }}
               className={cn(
-                "flex justify-between items-center py-1",
+                "w-full flex justify-between items-center py-2 px-1 hover:bg-primary/5 rounded transition-colors cursor-pointer",
                 priceIndex !== 0 && "border-t border-border/30"
               )}
             >
@@ -76,14 +90,32 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
                   </span>
                 )}
               </div>
-              <span className="font-display text-lg text-primary">
+              <div className="font-display text-lg text-primary flex items-center gap-1">
                 ₱{price.price.toLocaleString()}
-              </span>
-            </div>
+                <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">Order</span>
+              </div>
+            </button>
           ))}
         </div>
       </div>
 
+    
+      {/* Order Dialog */}
+      <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
+        <DialogContent className="sm:max-w-md bg-white border-primary/20">
+          <DialogHeader className="pb-2 border-b border-primary/10">
+            <DialogTitle className="text-2xl font-display text-foreground flex items-center gap-2">
+              {item.emoji && <span className="text-2xl">{item.emoji}</span>}
+              Order {item.name}
+            </DialogTitle>
+          </DialogHeader>
+          <OrderForm 
+            item={item} 
+            selectedPriceIndex={selectedPriceIndex} 
+            onClose={() => setIsOrderDialogOpen(false)} 
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
