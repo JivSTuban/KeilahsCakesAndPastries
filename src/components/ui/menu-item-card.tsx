@@ -6,6 +6,7 @@ import { getCloudinaryPublicId, isCloudinaryId } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
 import { type MenuItem } from "@/types/menu";
 import { OrderForm } from "@/components/ui/order-form";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -27,7 +28,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
   
   return (
     <div 
-      className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer"
+      className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer relative"
       onClick={handleCardClick}
     >
       {/* Item Image */}
@@ -104,6 +105,21 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
               </div>
             </div>
           ))}
+        </div>
+        
+        {/* Order Now Button */}
+        <div className="pt-4 mt-2 border-t border-border/30 relative z-10">
+          <Button 
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold border-2 border-primary-foreground/20 rounded-full py-2.5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOrderDialogOpen(true);
+            }}
+            variant="default"
+            size="default"
+          >
+            Order Now
+          </Button>
         </div>
       </div>
 
