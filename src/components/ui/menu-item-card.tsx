@@ -20,8 +20,16 @@ interface MenuItemCardProps {
 export function MenuItemCard({ item }: MenuItemCardProps) {
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
+  
+  const handleCardClick = () => {
+    setIsOrderDialogOpen(true);
+  };
+  
   return (
-    <div className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <div 
+      className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer"
+      onClick={handleCardClick}
+    >
       {/* Item Image */}
       {item.image && (
         <div className="relative aspect-[4/3] w-full">
@@ -67,9 +75,10 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
         {/* Prices */}
         <div className="space-y-2">
           {item.prices.map((price, priceIndex) => (
-            <button 
+            <div 
               key={priceIndex}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setSelectedPriceIndex(priceIndex);
                 setIsOrderDialogOpen(true);
               }}
@@ -90,11 +99,10 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
                   </span>
                 )}
               </div>
-              <div className="font-display text-lg text-primary flex items-center gap-1">
+              <div className="font-display text-lg text-primary">
                 ₱{price.price.toLocaleString()}
-                <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">Order</span>
               </div>
-            </button>
+            </div>
           ))}
         </div>
       </div>
@@ -102,10 +110,18 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
     
       {/* Order Dialog */}
       <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
-        <DialogContent className="sm:max-w-md bg-white border-primary/20">
+        <DialogContent 
+          className="w-[95vw] max-h-[90vh] overflow-y-auto sm:max-w-md bg-white border-primary/20 p-4 sm:p-6"
+          onPointerDownOutside={(e) => {
+            e.preventDefault();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <DialogHeader className="pb-2 border-b border-primary/10">
-            <DialogTitle className="text-2xl font-display text-foreground flex items-center gap-2">
-              {item.emoji && <span className="text-2xl">{item.emoji}</span>}
+            <DialogTitle className="text-xl sm:text-2xl font-display text-foreground flex items-center gap-2">
+              {item.emoji && <span className="text-xl sm:text-2xl">{item.emoji}</span>}
               Order {item.name}
             </DialogTitle>
           </DialogHeader>
