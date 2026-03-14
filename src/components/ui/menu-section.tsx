@@ -26,15 +26,10 @@ export function MenuSection({ section, isLoading }: MenuSectionProps) {
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Section Header */}
-      <div className="mb-8 text-center">
-        <h3 className="text-3xl font-display text-foreground mb-3">{section.title}</h3>
-        {section.description && (
-          <p className="text-lg font-body text-muted-foreground">{section.description}</p>
-        )}
-      </div>
+    
 
       {/* Menu Items */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
         {isLoading ? (
           // Loading Skeleton (3x3 grid)
           Array.from({ length: 9 }).map((_: unknown, index: number) => (

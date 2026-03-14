@@ -5,7 +5,7 @@ import Image, { ImageProps } from "next/image";
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
-interface CloudinaryImageProps extends Omit<ImageProps, "onLoadingComplete" | "src"> {
+interface CloudinaryImageProps extends Omit<ImageProps, "onLoad" | "src"> {
   publicId: string;
   overlayClassName?: string;
   transformations?: string;
@@ -37,7 +37,7 @@ export function CloudinaryImage({
           isLoading ? "opacity-0" : "opacity-100",
           className
         )}
-        onLoadingComplete={() => setIsLoading(false)}
+        onLoad={() => setIsLoading(false)}
       />
       {isLoading && (
         <div className={cn(

@@ -13,6 +13,8 @@ export interface MenuItem {
 
 export interface MenuCategory {
   name: string;
+  description?: string;
+  note?: string;
   sections: MenuSection[];
 }
 

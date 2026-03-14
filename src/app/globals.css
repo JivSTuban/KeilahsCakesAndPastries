@@ -129,6 +129,15 @@ body {
   opacity: 0.4;
 }
 
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Touch scrolling behavior */
 @media (hover: none) {
   .scrollbar-thin {

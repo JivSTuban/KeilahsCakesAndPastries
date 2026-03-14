@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { createClient } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,8 +11,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { PostsManagement } from "@/components/admin/posts-management"
 import { FeedbackManagement } from "@/components/admin/feedback-management"
 import { MenuManagement } from "@/components/admin/menu-management"
-import { FeaturedManagement } from "@/components/admin/featured-management"
-import { Eye, EyeOff, Lock, Mail, BarChart3, Users, MessageSquare, ShoppingCart, LogOut } from "lucide-react"
+import { CategoryManagement } from "@/components/admin/category-management"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { Eye, EyeOff, Lock, User, BarChart3, Users, MessageSquare, ShoppingCart, LogOut, KeyRound } from "lucide-react"
 import { motion } from "framer-motion"
 
 interface Profile {
@@ -29,7 +30,7 @@ interface AdminStats {
 export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -41,10 +42,16 @@ export default function AdminPage() {
     approvedFeedback: 0
   })
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const [resetDialogOpen, setResetDialogOpen] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [resetLoading, setResetLoading] = useState(false)
+  const [resetError, setResetError] = useState("")
+  const [resetSuccess, setResetSuccess] = useState("")
 
   useEffect(() => {
     checkAuth()
@@ -53,7 +60,7 @@ export default function AdminPage() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setIsAuthenticated(false)
-        setEmail("")
+        setUsername("")
         setPassword("")
         setError("")
         setSuccess("")
@@ -95,36 +102,51 @@ export default function AdminPage() {
     setError("")
     setSuccess("")
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
+    const MAX_RETRIES = 3
+    const email = `${username}@admin.keilahscakes.local`
 
-      if (error) throw error
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
 
-      if (data.session) {
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.session.user.id)
-          .single()
+        if (error) {
+          if (attempt < MAX_RETRIES) {
+            console.warn(`Login attempt ${attempt} failed, retrying...`, error.message)
+            await new Promise(r => setTimeout(r, 500 * attempt))
+            continue
+          }
+          throw error
+        }
 
-        if (profileData?.role === "admin") {
-          setIsAuthenticated(true)
-          setSuccess("Successfully logged in!")
-          fetchStats()
-        } else {
-          setError("Unauthorized access. Admin privileges required.")
-          await supabase.auth.signOut()
+        if (data.session) {
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", data.session.user.id)
+            .single()
+
+          if (profileData?.role === "admin") {
+            setIsAuthenticated(true)
+            setSuccess("Successfully logged in!")
+            fetchStats()
+          } else {
+            setError("Unauthorized access. Admin privileges required.")
+            await supabase.auth.signOut()
+          }
+        }
+        break
+      } catch (error: any) {
+        if (attempt === MAX_RETRIES) {
+          console.error("Login error after all retries:", error)
+          setError(error.message || "Error during login. Please check your credentials.")
         }
       }
-    } catch (error: any) {
-      console.error("Login error:", error)
-      setError(error.message || "Error during login. Please check your credentials.")
-    } finally {
-      setIsLoading(false)
     }
+
+    setIsLoading(false)
   }
 
   const fetchStats = async () => {
@@ -162,6 +184,75 @@ export default function AdminPage() {
       console.error("Error fetching stats:", error)
       setError("Error fetching dashboard stats. Please refresh the page.")
     }
+  }
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setResetError("")
+    setResetSuccess("")
+
+    if (newPassword.length < 6) {
+      setResetError("New password must be at least 6 characters.")
+      return
+    }
+
+    if (newPassword !== confirmPassword) {
+      setResetError("New passwords do not match.")
+      return
+    }
+
+    setResetLoading(true)
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        setResetError("Session expired. Please sign in again.")
+        return
+      }
+
+      const email = session.user.email!
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password: currentPassword,
+      })
+
+      if (signInError) {
+        setResetError("Current password is incorrect.")
+        return
+      }
+
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      })
+
+      if (updateError) throw updateError
+
+      setResetSuccess("Password updated successfully!")
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+      setTimeout(() => {
+        setResetDialogOpen(false)
+        setResetSuccess("")
+      }, 1500)
+    } catch (error: any) {
+      console.error("Password reset error:", error)
+      setResetError(error.message || "Failed to update password. Please try again.")
+    } finally {
+      setResetLoading(false)
+    }
+  }
+
+  const closeResetDialog = () => {
+    setResetDialogOpen(false)
+    setCurrentPassword("")
+    setNewPassword("")
+    setConfirmPassword("")
+    setResetError("")
+    setResetSuccess("")
+    setShowCurrentPassword(false)
+    setShowNewPassword(false)
+    setShowConfirmPassword(false)
   }
 
   if (isLoading) {
@@ -214,17 +305,17 @@ export default function AdminPage() {
 
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                  Email Address
+                <Label htmlFor="username" className="text-sm font-medium text-gray-700">
+                  Username
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="admin@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="pl-10 h-12 border-gray-200 focus:border-primary focus:ring-primary"
                     required
                     disabled={isLoading}
@@ -261,12 +352,12 @@ export default function AdminPage() {
 
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium"
-                disabled={isLoading || !email || !password}
+                className="w-full h-12 border border-gray-400 text-black font-medium hover:bg-gray-100"
+                disabled={isLoading}
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />
                     Signing In...
                   </div>
                 ) : (
@@ -299,21 +390,31 @@ export default function AdminPage() {
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Admin Dashboard</h1>
             <p className="text-gray-600 mt-2">Manage Keilah's Cakes & Pastries</p>
           </div>
-          <Button
-            variant="outline"
-            onClick={async () => {
-              await supabase.auth.signOut()
-              setIsAuthenticated(false)
-              setEmail("")
-              setPassword("")
-              setError("")
-              setSuccess("")
-            }}
-            className="flex items-center gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setResetDialogOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <KeyRound className="w-4 h-4" />
+              Reset Password
+            </Button>
+            <Button
+              variant="outline"
+              onClick={async () => {
+                await supabase.auth.signOut()
+                setIsAuthenticated(false)
+                setUsername("")
+                setPassword("")
+                setError("")
+                setSuccess("")
+              }}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </Button>
+          </div>
         </motion.div>
 
         {/* Stats Grid */}
@@ -386,11 +487,11 @@ export default function AdminPage() {
           transition={{ delay: 0.2 }}
         >
           <Tabs defaultValue="posts" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 lg:w-fit">
-              <TabsTrigger value="posts" className="text-sm">Posts</TabsTrigger>
-              <TabsTrigger value="feedback" className="text-sm">Feedback</TabsTrigger>
-              <TabsTrigger value="menu" className="text-sm">Menu</TabsTrigger>
-              <TabsTrigger value="featured" className="text-sm">Featured</TabsTrigger>
+            <TabsList className="flex w-full overflow-x-auto no-scrollbar lg:w-fit">
+              <TabsTrigger value="posts" className="text-sm flex-shrink-0">Posts</TabsTrigger>
+              <TabsTrigger value="feedback" className="text-sm flex-shrink-0">Feedback</TabsTrigger>
+              <TabsTrigger value="menu" className="text-sm flex-shrink-0">Menu</TabsTrigger>
+              <TabsTrigger value="categories" className="text-sm flex-shrink-0">Categories</TabsTrigger>
             </TabsList>
 
             <TabsContent value="posts" className="mt-6">
@@ -411,13 +512,150 @@ export default function AdminPage() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="featured" className="mt-6">
+            <TabsContent value="categories" className="mt-6">
               <Card className="p-6 bg-white shadow-sm border-0">
-                <FeaturedManagement />
+                <CategoryManagement />
               </Card>
             </TabsContent>
           </Tabs>
         </motion.div>
+
+        {/* Reset Password Dialog */}
+        <Dialog open={resetDialogOpen} onOpenChange={(open) => { if (!open) closeResetDialog() }}>
+          <DialogContent className="sm:max-w-md flex flex-col max-h-[90vh] overflow-hidden gap-4">
+            <DialogHeader className="flex-shrink-0">
+              <DialogTitle className="flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-primary" />
+                Reset Password
+              </DialogTitle>
+              <DialogDescription>
+                Enter your current password and choose a new one.
+              </DialogDescription>
+            </DialogHeader>
+
+            {resetError && (
+              <Alert className="border-red-200 bg-red-50 flex-shrink-0">
+                <AlertDescription className="text-red-800">{resetError}</AlertDescription>
+              </Alert>
+            )}
+
+            {resetSuccess && (
+              <Alert className="border-green-200 bg-green-50 flex-shrink-0">
+                <AlertDescription className="text-green-800">{resetSuccess}</AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleResetPassword} className="flex flex-col flex-1 min-h-0">
+              <div className="space-y-4 overflow-y-auto flex-1 pr-2">
+              <div className="space-y-2">
+                <Label htmlFor="current-password" className="text-sm font-medium text-gray-700">
+                  Current Password
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    id="current-password"
+                    type={showCurrentPassword ? "text" : "password"}
+                    placeholder="Enter current password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                    required
+                    disabled={resetLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    disabled={resetLoading}
+                  >
+                    {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="new-password" className="text-sm font-medium text-gray-700">
+                  New Password
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    id="new-password"
+                    type={showNewPassword ? "text" : "password"}
+                    placeholder="Enter new password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                    required
+                    disabled={resetLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    disabled={resetLoading}
+                  >
+                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+                  Confirm New Password
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    id="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm new password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                    required
+                    disabled={resetLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    disabled={resetLoading}
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+              </div>
+
+              <div className="flex flex-row justify-end gap-2 pt-4 flex-shrink-0 mt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={closeResetDialog}
+                  disabled={resetLoading}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="border border-gray-400 text-black hover:bg-gray-100"
+                  disabled={resetLoading}
+                >
+                  {resetLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />
+                      Updating...
+                    </div>
+                  ) : (
+                    "Update Password"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

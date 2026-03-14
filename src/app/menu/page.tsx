@@ -1,11 +1,12 @@
 import { MenuSection } from "@/components/ui/menu-section";
-import { menuData } from "@/data/menu";
+import { getMenuData } from "@/data/menu";
 import { type MenuSection as MenuSectionType } from "@/types/menu";
 import { Cake } from "lucide-react";
 import Image from "next/image";
 import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const menuData = await getMenuData();
   return (
     <div className="min-h-screen bg-background">
       {/* Menu Hero Section */}
@@ -66,7 +67,12 @@ export default function MenuPage() {
           <div key={index} className="mb-20 last:mb-0">
             {/* Category Header */}
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-display text-foreground mb-4">{category.name}</h2>
+              <h2 className="text-4xl font-display text-foreground mb-4 uppercase">{category.name}</h2>
+              {category.description && (
+                <p className="text-lg font-body text-muted-foreground mb-4 max-w-2xl mx-auto">
+                  {category.description}
+                </p>
+              )}
               <div className="w-24 h-1 bg-primary/20 mx-auto rounded-full" />
             </div>
 
@@ -76,6 +82,8 @@ export default function MenuPage() {
                 <MenuSection key={sectionIndex} section={section} />
               ))}
             </div>
+
+            
           </div>
         ))}
       </div>

@@ -28,7 +28,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
   
   return (
     <div 
-      className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer relative"
+      className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer relative flex flex-col h-full"
       onClick={handleCardClick}
     >
       {/* Item Image */}
@@ -41,12 +41,12 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
-            transformations="f_auto,q_auto,w_auto,c_fill"
+            transformations="f_auto,q_auto,c_fill"
           />
         </div>
       )}
 
-      <div className="p-4 sm:p-6 space-y-3 sm:space-y-4"> {/* Responsive padding and space */}
+      <div className="p-4 sm:p-6 flex flex-col flex-1 gap-3 sm:gap-4">
         {/* Item Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -59,19 +59,17 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
           </div>
         </div>
 
-        {/* Description & Flavor */}
-        {(item.description || item.flavor) && (
-          <div>
-            {item.description && (
-              <p className="text-muted-foreground font-body mb-2">{item.description}</p>
-            )}
-            {item.flavor && (
-              <p className="text-sm font-body text-muted-foreground italic">
-                Available flavors: {item.flavor}
-              </p>
-            )}
-          </div>
-        )}
+        {/* Description & Flavor — grows to fill available space */}
+        <div className="flex-1">
+          {item.description && (
+            <p className="text-muted-foreground font-body mb-2">{item.description}</p>
+          )}
+          {item.flavor && (
+            <p className="text-sm font-body text-muted-foreground italic">
+              Available flavors: {item.flavor}
+            </p>
+          )}
+        </div>
 
         {/* Prices */}
         <div className="space-y-2">
