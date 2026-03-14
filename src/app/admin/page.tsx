@@ -12,6 +12,7 @@ import { PostsManagement } from "@/components/admin/posts-management"
 import { FeedbackManagement } from "@/components/admin/feedback-management"
 import { MenuManagement } from "@/components/admin/menu-management"
 import { CategoryManagement } from "@/components/admin/category-management"
+import { CollectionsManagement } from "@/components/admin/collections-management"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Eye, EyeOff, Lock, User, BarChart3, Users, MessageSquare, ShoppingCart, LogOut, KeyRound } from "lucide-react"
 import { motion } from "framer-motion"
@@ -492,6 +493,7 @@ export default function AdminPage() {
               <TabsTrigger value="feedback" className="text-sm flex-shrink-0">Feedback</TabsTrigger>
               <TabsTrigger value="menu" className="text-sm flex-shrink-0">Menu</TabsTrigger>
               <TabsTrigger value="categories" className="text-sm flex-shrink-0">Categories</TabsTrigger>
+              <TabsTrigger value="collections" className="text-sm flex-shrink-0">Collections</TabsTrigger>
             </TabsList>
 
             <TabsContent value="posts" className="mt-6">
@@ -515,6 +517,12 @@ export default function AdminPage() {
             <TabsContent value="categories" className="mt-6">
               <Card className="p-6 bg-white shadow-sm border-0">
                 <CategoryManagement />
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="collections" className="mt-6">
+              <Card className="p-6 bg-white shadow-sm border-0">
+                <CollectionsManagement />
               </Card>
             </TabsContent>
           </Tabs>

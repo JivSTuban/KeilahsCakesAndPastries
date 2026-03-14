@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { getCloudinaryUrl } from "@/lib/cloudinary-url"
+import { trackOrderClick } from "@/lib/analytics"
 
 export function PastryCTA() {
   return (
@@ -77,6 +78,7 @@ export function PastryCTA() {
                   <Link
                     href="/menu"
                     className="group flex items-center gap-3"
+                    onClick={() => trackOrderClick("Place an Order CTA")}
                   >
                     <span className="relative font-medium">
                       Place an Order

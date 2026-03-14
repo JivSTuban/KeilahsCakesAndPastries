@@ -10,8 +10,8 @@ export default async function MenuPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Menu Hero Section */}
-      <section className="relative py-24 overflow-hidden bg-primary/5">
-        {/* Background Pattern */}
+      {/* <section className="relative py-24 overflow-hidden bg-primary/5">
+       
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
           <div className="absolute inset-0 opacity-[0.015]" style={{
@@ -34,7 +34,7 @@ export default async function MenuPage() {
               Discover our handcrafted selection of cakes and pastries, each made with love and premium ingredients
             </p>
 
-            {/* Decorative Images */}
+          
             <div className="hidden md:block">
               <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-32 h-32">
                 <Image
@@ -56,10 +56,9 @@ export default async function MenuPage() {
           </div>
         </div>
 
-        {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/60 via-primary to-primary/60" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-border/50" />
-      </section>
+      </section> */}
 
       {/* Menu Categories */}
       <div className="container-lg mx-auto px-4 py-12 max-w-[90rem]">
@@ -83,7 +82,7 @@ export default async function MenuPage() {
               ))}
             </div>
 
-            
+
           </div>
         ))}
       </div>
@@ -101,7 +100,7 @@ export default async function MenuPage() {
                 <li>We accept GCash, BPI, and Union Bank payments</li>
               </ul>
             </div>
-            
+
             <div className="mt-8 p-6 bg-card/50 rounded-xl border border-border/50">
               <p className="font-display text-xl text-foreground mb-2">Contact Us</p>
               <p className="font-body text-muted-foreground">

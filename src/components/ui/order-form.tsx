@@ -160,7 +160,7 @@ export function OrderForm({ item, selectedPriceIndex, onClose }: OrderFormProps)
               name="order_for_date" 
               type="date"
               required
-              min={new Date().toISOString().split('T')[0]}
+              min={(() => { const d = new Date(); d.setDate(d.getDate() + 2); return d.toISOString().split('T')[0]; })()}
               className="w-full rounded-lg border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer text-sm"
               onClick={(e) => {
                 // Ensure the calendar opens when clicking anywhere in the input

@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { trackOrderClick } from "@/lib/analytics";
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -21,15 +22,17 @@ interface MenuItemCardProps {
 export function MenuItemCard({ item }: MenuItemCardProps) {
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
-  
-  const handleCardClick = () => {
+
+  const openOrderDialog = (priceIndex?: number) => {
+    trackOrderClick(item.name);
+    if (priceIndex !== undefined) setSelectedPriceIndex(priceIndex);
     setIsOrderDialogOpen(true);
   };
   
   return (
     <div 
       className="bg-card/50 border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer relative flex flex-col h-full"
-      onClick={handleCardClick}
+      onClick={() => openOrderDialog()}
     >
       {/* Item Image */}
       {item.image && (
@@ -78,8 +81,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
               key={priceIndex}
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedPriceIndex(priceIndex);
-                setIsOrderDialogOpen(true);
+                openOrderDialog(priceIndex);
               }}
               className={cn(
                 "w-full flex justify-between items-center py-2 px-1 hover:bg-primary/5 rounded transition-colors cursor-pointer",
@@ -111,7 +113,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold border-2 border-primary-foreground/20 rounded-full py-2.5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
             onClick={(e) => {
               e.stopPropagation();
-              setIsOrderDialogOpen(true);
+              openOrderDialog();
             }}
             variant="default"
             size="default"

@@ -377,26 +377,7 @@ export default function PostsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-b from-primary/5 via-white to-gray-50 pt-10 pb-6">
-        <div className="max-w-xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
-          >
-            <div className="inline-flex items-center justify-center gap-2">
-              <Cake className="h-7 w-7 text-primary" />
-              <h1 className="text-3xl sm:text-4xl font-serif text-gray-900">
-                Our Posts
-              </h1>
-            </div>
-            <p className="text-sm sm:text-base text-gray-500 max-w-md mx-auto">
-              Stay updated with our latest creations, events, and sweet announcements
-            </p>
-          </motion.div>
-        </div>
-      </div>
+
 
       {/* Feed */}
       <div className="max-w-xl mx-auto px-4 pb-16 space-y-4">
