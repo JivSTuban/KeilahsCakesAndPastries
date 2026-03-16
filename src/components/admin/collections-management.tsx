@@ -33,6 +33,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Plus, Pencil, Trash2, ImageIcon, LayoutGrid } from "lucide-react"
+import { revalidatePaths } from "@/lib/revalidate"
 
 // ─── Types ───────────────────────────────────────────────────────────
 interface Collection {
@@ -111,6 +112,7 @@ export function CollectionsManagement() {
       setAddForm({ ...EMPTY_FORM })
       setIsAddDialogOpen(false)
       fetchCollections()
+      revalidatePaths(["/collections"])
     } catch (error) {
       console.error("Error creating collection:", error)
       toast.error("Failed to create collection")
@@ -150,6 +152,7 @@ export function CollectionsManagement() {
       setIsEditDialogOpen(false)
       setEditingId(null)
       fetchCollections()
+      revalidatePaths(["/collections"])
     } catch (error) {
       console.error("Error updating collection:", error)
       toast.error("Failed to update collection")
@@ -172,6 +175,7 @@ export function CollectionsManagement() {
 
       toast.success("Collection deleted successfully")
       setCollections(collections.filter((c) => c.id !== deleteTarget.id))
+      revalidatePaths(["/collections"])
     } catch (error) {
       console.error("Error deleting collection:", error)
       toast.error("Failed to delete collection")

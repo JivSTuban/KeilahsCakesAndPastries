@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Plus, Pencil, Trash2, Star, CheckCircle, XCircle, UtensilsCrossed, X } from "lucide-react"
 import { ImageUpload } from "@/components/ui/image-upload"
+import { revalidatePaths } from "@/lib/revalidate"
 
 // ─── Types ───────────────────────────────────────────────────────────
 export interface PriceVariant {
@@ -225,6 +226,7 @@ export function MenuManagement() {
       setAddForm({ ...EMPTY_FORM, prices: [{ ...BLANK_PRICE_ROW }] })
       setIsAddDialogOpen(false)
       fetchMenuItems()
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error creating menu item:", error)
       toast.error("Failed to create menu item")
@@ -273,6 +275,7 @@ export function MenuManagement() {
       setIsEditDialogOpen(false)
       setEditingId(null)
       fetchMenuItems()
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error updating menu item:", error)
       toast.error("Failed to update menu item")
@@ -295,6 +298,7 @@ export function MenuManagement() {
 
       toast.success("Menu item deleted successfully")
       setItems(items.filter((item) => item.id !== deleteTarget.id))
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error deleting menu item:", error)
       toast.error("Failed to delete menu item")
@@ -321,6 +325,7 @@ export function MenuManagement() {
       toast.success(
         `${item.name} is now ${newStatus === "available" ? "available" : "unavailable"}`
       )
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error toggling status:", error)
       toast.error("Failed to update status")

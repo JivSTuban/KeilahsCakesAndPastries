@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Plus, Pencil, Trash2, FolderOpen } from "lucide-react"
+import { revalidatePaths } from "@/lib/revalidate"
 
 interface Category {
   id: number
@@ -109,6 +110,7 @@ export function CategoryManagement() {
       setAddForm({ name: "", slug: "", description: "", note: "" })
       setIsAddDialogOpen(false)
       fetchCategories()
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error creating category:", error)
       toast.error("Failed to create category")
@@ -161,6 +163,7 @@ export function CategoryManagement() {
       setIsEditDialogOpen(false)
       setEditingId(null)
       fetchCategories()
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error updating category:", error)
       toast.error("Failed to update category")
@@ -195,6 +198,7 @@ export function CategoryManagement() {
 
       toast.success("Category deleted successfully")
       setCategories(categories.filter((c) => c.id !== deleteTarget.id))
+      revalidatePaths(["/menu"])
     } catch (error) {
       console.error("Error deleting category:", error)
       toast.error("Failed to delete category")
