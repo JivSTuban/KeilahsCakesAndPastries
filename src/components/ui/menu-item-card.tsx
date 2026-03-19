@@ -36,15 +36,12 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
     >
       {/* Item Image */}
       {item.image && (
-        <div className="relative aspect-[4/3] w-full">
-          <CloudinaryImage
-            publicId={isCloudinaryId(item.image) ? item.image : getCloudinaryPublicId(item.image)}
+        <div className="w-full bg-white relative">
+          <img
+            src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/v1/${isCloudinaryId(item.image) ? item.image : getCloudinaryPublicId(item.image)}`}
             alt={item.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority
-            transformations="f_auto,q_auto,c_fill"
+            className="w-full h-auto object-cover"
+            loading="lazy"
           />
         </div>
       )}
