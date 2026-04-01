@@ -13,6 +13,7 @@ import { FeedbackManagement } from "@/components/admin/feedback-management"
 import { MenuManagement } from "@/components/admin/menu-management"
 import { CategoryManagement } from "@/components/admin/category-management"
 import { CollectionsManagement } from "@/components/admin/collections-management"
+import { HeroManagement } from "@/components/admin/hero-management"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Eye, EyeOff, Lock, User, BarChart3, Users, MessageSquare, ShoppingCart, LogOut, KeyRound } from "lucide-react"
 import { motion } from "framer-motion"
@@ -351,8 +352,8 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full h-12 border border-gray-400 text-black font-medium hover:bg-gray-100"
                 disabled={isLoading}
               >
@@ -489,12 +490,19 @@ export default function AdminPage() {
         >
           <Tabs defaultValue="posts" className="w-full">
             <TabsList className="flex w-full overflow-x-auto no-scrollbar lg:w-fit">
+              <TabsTrigger value="hero" className="text-sm flex-shrink-0">Homepage</TabsTrigger>
               <TabsTrigger value="posts" className="text-sm flex-shrink-0">Posts</TabsTrigger>
               <TabsTrigger value="feedback" className="text-sm flex-shrink-0">Feedback</TabsTrigger>
               <TabsTrigger value="menu" className="text-sm flex-shrink-0">Menu</TabsTrigger>
               <TabsTrigger value="categories" className="text-sm flex-shrink-0">Categories</TabsTrigger>
               <TabsTrigger value="collections" className="text-sm flex-shrink-0">Collections</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="hero" className="mt-6">
+              <Card className="p-6 bg-white shadow-sm border-0">
+                <HeroManagement />
+              </Card>
+            </TabsContent>
 
             <TabsContent value="posts" className="mt-6">
               <Card className="p-6 bg-white shadow-sm border-0">
@@ -555,86 +563,86 @@ export default function AdminPage() {
 
             <form onSubmit={handleResetPassword} className="flex flex-col flex-1 min-h-0">
               <div className="space-y-4 overflow-y-auto flex-1 pr-2">
-              <div className="space-y-2">
-                <Label htmlFor="current-password" className="text-sm font-medium text-gray-700">
-                  Current Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <Input
-                    id="current-password"
-                    type={showCurrentPassword ? "text" : "password"}
-                    placeholder="Enter current password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
-                    required
-                    disabled={resetLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    disabled={resetLoading}
-                  >
-                    {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+                <div className="space-y-2">
+                  <Label htmlFor="current-password" className="text-sm font-medium text-gray-700">
+                    Current Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="current-password"
+                      type={showCurrentPassword ? "text" : "password"}
+                      placeholder="Enter current password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                      required
+                      disabled={resetLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      disabled={resetLoading}
+                    >
+                      {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="new-password" className="text-sm font-medium text-gray-700">
-                  New Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <Input
-                    id="new-password"
-                    type={showNewPassword ? "text" : "password"}
-                    placeholder="Enter new password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
-                    required
-                    disabled={resetLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowNewPassword(!showNewPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    disabled={resetLoading}
-                  >
-                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+                <div className="space-y-2">
+                  <Label htmlFor="new-password" className="text-sm font-medium text-gray-700">
+                    New Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="new-password"
+                      type={showNewPassword ? "text" : "password"}
+                      placeholder="Enter new password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                      required
+                      disabled={resetLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      disabled={resetLoading}
+                    >
+                      {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
-                  Confirm New Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <Input
-                    id="confirm-password"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm new password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
-                    required
-                    disabled={resetLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    disabled={resetLoading}
-                  >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+                <div className="space-y-2">
+                  <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+                    Confirm New Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="confirm-password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm new password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="pl-10 pr-10 h-11 border-gray-200 focus:border-primary focus:ring-primary"
+                      required
+                      disabled={resetLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      disabled={resetLoading}
+                    >
+                      {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
-              </div>
               </div>
 
               <div className="flex flex-row justify-end gap-2 pt-4 flex-shrink-0 mt-4 border-t border-gray-200">

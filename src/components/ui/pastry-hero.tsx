@@ -8,70 +8,74 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 
-const pastryProducts = [
-  {
-    title: "Cake in Cups",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/CakeinCups/IMG_3122.JPG"),
-  },
-  {
-    title: "Bridal Shower Cakes",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/BridalShowerCakes/IMG_2723.JPG"),
-  },
-  {
-    title: "Bento and Combos",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/BentoandCombos/IMG_3139.JPG"),
-  },
-  {
-    title: "Baby Dedication Cakes",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
-  },
-  {
-    title: "All in One Package",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3090.JPG"),
-  },
-  {
-    title: "1 Tier Cakes",
-    link: "/menu",
-    thumbnail: getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3115.JPG"),
-  }
-] as const;
-
-export function PastryHero() {
-  const productsToShow = pastryProducts.slice(0, 6);
+export function PastryHero({ 
+  displayMode = 'slideshow',
+  heroImageUrl,
+  heroImages 
+}: { 
+  displayMode?: string,
+  heroImageUrl?: string | null,
+  heroImages?: string[] | null 
+}) {
+  const defaultImages = [
+    getCloudinaryUrl("/CakeinCups/IMG_3122.JPG"),
+    getCloudinaryUrl("/BridalShowerCakes/IMG_2723.JPG"),
+    getCloudinaryUrl("/BentoandCombos/IMG_3139.JPG"),
+    getCloudinaryUrl("/BabyDedicationCakes/IMG_3154.JPG"),
+    getCloudinaryUrl("/ALLINONEPACKAGE/IMG_3090.JPG"),
+    getCloudinaryUrl("/CustomizedCakes/1TierCakes/IMG_3115.JPG")
+  ];
+  
+  const displayImages = heroImages && heroImages.length > 0 ? heroImages : defaultImages;
+  const singleImage = heroImageUrl || getCloudinaryUrl("/CakeinCups/IMG_3122.JPG");
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-advance slideshow every 4 seconds
   useEffect(() => {
+    if (displayMode === 'single') return;
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % productsToShow.length);
+      setCurrentSlide((prev) => (prev + 1) % displayImages.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [productsToShow.length]);
+  }, [displayImages.length, displayMode]);
 
   return (
     <div className="relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
-      {/* Background Slideshow */}
-      <motion.div
-        key={currentSlide}
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <Image
-          src={productsToShow[currentSlide].thumbnail}
-          alt={productsToShow[currentSlide].title}
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-      </motion.div>
+      {/* Background Image */}
+      {displayMode === 'single' ? (
+        <motion.div
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Image
+            src={singleImage}
+            alt="Keilah's Cakes and Pastries Hero Image"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          key={currentSlide}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Image
+            src={displayImages[currentSlide]}
+            alt={`Keilah's Cakes and Pastries Hero Image ${currentSlide + 1}`}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+        </motion.div>
+      )}
 
       {/* Black Mask Overlay */}
       <div className="absolute inset-0 bg-black/60" />

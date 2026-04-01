@@ -55,7 +55,13 @@ const CAKE_CATEGORIES = [
 ];
 
 interface CategoryCardProps {
-  category: typeof CAKE_CATEGORIES[0];
+  category: {
+    id: string | number;
+    title: string;
+    description: string;
+    image: string;
+    href: string;
+  };
   index: number;
   isHovered: boolean;
   onHover: (index: number | null) => void;
@@ -168,8 +174,18 @@ function CategoryCard({ category, index, isHovered, onHover }: CategoryCardProps
   );
 }
 
-export function CakeCategoryGrid() {
+export function CakeCategoryGrid({ collections = [] }: { collections?: any[] }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const displayCategories = collections && collections.length > 0 
+    ? collections.map((c, i) => ({
+        id: c.id,
+        title: c.category,
+        description: "Explore our beautiful handcrafted collection",
+        image: c.images?.[0] || getCloudinaryUrl("/CakeinCups/IMG_3122.JPG"), // fallback image
+        href: `/collections#${(c.category || "").toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+      }))
+    : CAKE_CATEGORIES;
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 py-16 md:py-24 overflow-hidden">
@@ -189,7 +205,7 @@ export function CakeCategoryGrid() {
       </motion.div>
 
       <div className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-6 md:gap-8 perspective-1000 relative z-10 max-w-4xl mx-auto">
-        {CAKE_CATEGORIES.map((category, index) => (
+        {displayCategories.map((category, index) => (
           <CategoryCard 
             key={category.id}
             category={category}
